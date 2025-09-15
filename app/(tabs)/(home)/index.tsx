@@ -11,6 +11,10 @@ export default function Home() {
     console.log('Scan pressed');
   };
 
+  const handleBuyPress = (itemId: string) => {
+    console.log('Buy pressed for item:', itemId);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -18,7 +22,10 @@ export default function Home() {
           onFilterPress={handleFilterPress}
           onScanPress={handleScanPress}
         />
-        <Carousel showDots={false} />
+        <Carousel 
+          showDots={false} 
+          onBuyPress={handleBuyPress}
+        />
       </ScrollView>
     </SafeAreaView>
   );

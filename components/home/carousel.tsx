@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui';
 import { Image } from 'expo-image';
 import React, { useCallback, useRef, useState } from 'react';
 import {
@@ -30,9 +31,17 @@ interface CarouselItemProps {
   };
   index: number;
   scrollX: SharedValue<number>;
+  activeIndex: number;
+  onBuyPress?: (itemId: string) => void;
 }
 
-const CarouselItem = ({ item, index, scrollX }: CarouselItemProps) => {
+const CarouselItem = ({
+  item,
+  index,
+  scrollX,
+  activeIndex,
+  onBuyPress,
+}: CarouselItemProps) => {
   const containerAnimatedStyle = useAnimatedStyle(() => {
     const inputRange = [
       (index - 1) * ITEM_WIDTH,
@@ -79,13 +88,36 @@ const CarouselItem = ({ item, index, scrollX }: CarouselItemProps) => {
     };
   });
 
+  const buttonAnimatedStyle = useAnimatedStyle(() => {
+    const isActive = index === activeIndex;
+    return {
+      opacity: withTiming(isActive ? 1 : 0, { duration: 300 }),
+      transform: [
+        {
+          scale: withTiming(isActive ? 1 : 0.8, { duration: 300 }),
+        },
+      ],
+    };
+  });
+
   return (
     <Animated.View style={[styles.itemContainer, containerAnimatedStyle]}>
-      <AnimatedImage 
-        source={item.image} 
-        style={[styles.image, imageAnimatedStyle]} 
-        contentFit="cover" 
+      <AnimatedImage
+        source={item.image}
+        style={[styles.image, imageAnimatedStyle]}
+        contentFit='cover'
       />
+      {onBuyPress && (
+        <Animated.View
+          style={[styles.itemButtonContainer, buttonAnimatedStyle]}
+        >
+          <Button
+            title='Buy now'
+            onPress={() => onBuyPress(item.id)}
+            style={styles.itemBuyButton}
+          />
+        </Animated.View>
+      )}
     </Animated.View>
   );
 };
@@ -100,10 +132,9 @@ const PaginationDot = ({ index, activeIndex }: PaginationDotProps) => {
     const isActive = index === activeIndex;
     return {
       width: withTiming(isActive ? 24 : 8, { duration: 200 }),
-      backgroundColor: withTiming(
-        isActive ? '#000' : '#D1D5DB',
-        { duration: 200 }
-      ),
+      backgroundColor: withTiming(isActive ? '#000' : '#D1D5DB', {
+        duration: 200,
+      }),
     };
   });
 
@@ -112,9 +143,10 @@ const PaginationDot = ({ index, activeIndex }: PaginationDotProps) => {
 
 interface CarouselProps {
   showDots?: boolean;
+  onBuyPress?: (itemId: string) => void;
 }
 
-export const Carousel = ({ showDots = true }: CarouselProps) => {
+export const Carousel = ({ showDots = true, onBuyPress }: CarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<FlatList>(null);
@@ -125,9 +157,12 @@ export const Carousel = ({ showDots = true }: CarouselProps) => {
     { id: '3', image: require('@/assets/carousel/image3.png') },
   ];
 
-  const onScroll = useCallback((event: any) => {
-    scrollX.value = event.nativeEvent.contentOffset.x;
-  }, [scrollX]);
+  const onScroll = useCallback(
+    (event: any) => {
+      scrollX.value = event.nativeEvent.contentOffset.x;
+    },
+    [scrollX]
+  );
 
   const onViewableItemsChanged = useCallback(
     ({ viewableItems }: { viewableItems: ViewToken[] }) => {
@@ -143,7 +178,15 @@ export const Carousel = ({ showDots = true }: CarouselProps) => {
   }).current;
 
   const renderItem = ({ item, index }: { item: any; index: number }) => {
-    return <CarouselItem item={item} index={index} scrollX={scrollX} />;
+    return (
+      <CarouselItem
+        item={item}
+        index={index}
+        scrollX={scrollX}
+        activeIndex={activeIndex}
+        onBuyPress={onBuyPress}
+      />
+    );
   };
 
   return (
@@ -157,23 +200,27 @@ export const Carousel = ({ showDots = true }: CarouselProps) => {
         showsHorizontalScrollIndicator={false}
         pagingEnabled
         snapToInterval={ITEM_WIDTH}
-        decelerationRate="fast"
+        decelerationRate='fast'
         contentContainerStyle={{
           paddingHorizontal: SPACING,
+          paddingBottom: 60,
+        }}
+        style={{
+          overflow: 'visible',
         }}
         onScroll={onScroll}
         scrollEventThrottle={16}
         onViewableItemsChanged={onViewableItemsChanged}
         viewabilityConfig={viewabilityConfig}
       />
-      
+
       {showDots && (
         <View style={styles.pagination}>
           {carouselData.map((_, index) => (
-            <PaginationDot 
-              key={index} 
-              index={index} 
-              activeIndex={activeIndex} 
+            <PaginationDot
+              key={index}
+              index={index}
+              activeIndex={activeIndex}
             />
           ))}
         </View>
@@ -184,18 +231,20 @@ export const Carousel = ({ showDots = true }: CarouselProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    height: ITEM_HEIGHT_ACTIVE + 40,
     marginVertical: 20,
+    paddingBottom: 80,
   },
   itemContainer: {
     width: ITEM_WIDTH,
     height: ITEM_HEIGHT_ACTIVE,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'visible',
   },
   image: {
     width: ITEM_WIDTH,
     borderRadius: 16,
+    zIndex: 2,
   },
   pagination: {
     flexDirection: 'row',
@@ -207,5 +256,16 @@ const styles = StyleSheet.create({
   paginationDot: {
     height: 8,
     borderRadius: 4,
+  },
+  itemButtonContainer: {
+    position: 'absolute',
+    bottom: -45,
+    alignItems: 'center',
+    width: '100%',
+    zIndex: 1,
+  },
+  itemBuyButton: {
+    borderRadius: 14,
+    width: '70%',
   },
 });
