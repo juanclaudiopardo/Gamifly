@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 
 export default function TabsLayout() {
@@ -7,11 +7,18 @@ export default function TabsLayout() {
       screenOptions={{
         tabBarActiveTintColor: '#007AFF',
         tabBarInactiveTintColor: '#666',
+        tabBarShowLabel: false,
         tabBarStyle: {
           backgroundColor: '#fff',
-          borderTopWidth: 1,
           borderTopColor: '#e0e0e0',
+          position: 'absolute',
+          bottom: 40,
+          marginHorizontal: 37,
+          borderRadius: 35,
+          paddingBottom: 0,
         },
+
+        tabBarLabelPosition: 'beside-icon',
       }}
     >
       <Tabs.Screen
@@ -25,11 +32,42 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name='collection'
+        options={{
+          title: 'Colección',
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name='product' size={size} color={color} />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
         name='settings'
         options={{
           title: 'Configuración',
+          headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='settings' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name='love'
+        options={{
+          title: 'Amor',
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name='settings' size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name='profile'
+        options={{
+          title: 'Profile',
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome name='user' size={size} color={color} />
           ),
         }}
       />
