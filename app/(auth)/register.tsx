@@ -1,4 +1,4 @@
-import { SocialLogin } from '@/components';
+import { SocialLogin } from '@/components/common';
 import { Button, Checkbox, Input } from '@/components/ui';
 import {
   EvilIcons,

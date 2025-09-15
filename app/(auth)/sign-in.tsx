@@ -1,13 +1,11 @@
-import { SocialLogin } from '@/components/social-login';
-import { Button, Checkbox, Input } from '@/components/ui';
+import { SocialLogin } from '@/components/common';
+import { SignInForm } from '@/components/sign-in';
+import { Button } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
-import Feather from '@expo/vector-icons/Feather';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -71,87 +69,17 @@ export default function SignIn() {
         <Text style={styles.title}>Glamify</Text>
         <View style={styles.form}>
           <Text style={styles.formTitle}>Welcome to Glamify Login now!</Text>
-          <View style={{ gap: 21 }}>
-            <Controller
-              control={control}
-              name='email'
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  label='Email'
-                  value={value}
-                  onChangeText={onChange}
-                  keyboardType='email-address'
-                  autoCapitalize='none'
-                  autoCorrect={false}
-                  placeholder='micheal09@gmail.com'
-                  editable={!isSubmitting}
-                  error={errors.email?.message}
-                  leftIcon={
-                    <MaterialCommunityIcons
-                      name='email-outline'
-                      size={24}
-                      color='#808080'
-                    />
-                  }
-                />
-              )}
-            />
 
-            <Controller
-              control={control}
-              name='password'
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  label='Password'
-                  value={value}
-                  onChangeText={onChange}
-                  secureTextEntry={!showPassword}
-                  placeholder='********'
-                  editable={!isSubmitting}
-                  error={errors.password?.message}
-                  leftIcon={
-                    <Ionicons
-                      name='lock-closed-outline'
-                      size={24}
-                      color='#808080'
-                    />
-                  }
-                  rightIcon={
-                    <Feather
-                      name={showPassword ? 'eye' : 'eye-off'}
-                      size={20}
-                      color='#808080'
-                    />
-                  }
-                  onRightIconPress={() => setShowPassword(!showPassword)}
-                />
-              )}
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 12,
-              marginBottom: 24,
-            }}
-          >
-            <Controller
-              control={control}
-              name='rememberMe'
-              render={({ field: { onChange, value } }) => (
-                <Checkbox
-                  label='Remember me'
-                  checked={value}
-                  onValueChange={onChange}
-                />
-              )}
-            />
+          <SignInForm
+            control={control}
+            errors={errors}
+            isSubmitting={isSubmitting}
+            showPassword={showPassword}
+            onShowPasswordToggle={() => setShowPassword(!showPassword)}
+            onForgotPassword={() => console.log('Forgot Password')}
+            styles={styles}
+          />
 
-            <TouchableOpacity onPress={() => console.log('Forgot Password')}>
-              <Text style={styles.forgotPasswordLink}>Forgot password?</Text>
-            </TouchableOpacity>
-          </View>
           <Button
             title='Login'
             onPress={handleSubmit(onSubmit as any)}
@@ -206,9 +134,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 
-  forgotPasswordLink: {
-    fontSize: 12,
-  },
   registerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -223,15 +148,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
   },
-  testButton: {
-    marginTop: 32,
-    alignItems: 'center',
-  },
-  testButtonText: {
-    color: '#007AFF',
-    fontSize: 16,
-    textDecorationLine: 'underline',
-  },
+
   hint: {
     textAlign: 'center',
     marginTop: 16,
