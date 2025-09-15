@@ -1,5 +1,6 @@
 import { AntDesign, FontAwesome, Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
+import { View } from 'react-native';
 
 export default function TabsLayout() {
   return (
@@ -26,8 +27,23 @@ export default function TabsLayout() {
         options={{
           title: 'Inicio',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='home' size={size} color={color} />
+          tabBarIcon: ({ size, focused }) => (
+            <View
+              style={{
+                backgroundColor: focused ? '#0FB758' : '#F2F2F2',
+                width: 60,
+                height: 60,
+                borderRadius: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Ionicons
+                name='home'
+                size={size}
+                color={focused ? '#fff' : '#666'}
+              />
+            </View>
           ),
         }}
       />
@@ -36,8 +52,23 @@ export default function TabsLayout() {
         options={{
           title: 'Colección',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name='product' size={size} color={color} />
+          tabBarIcon: ({ size, focused }) => (
+            <View
+              style={{
+                backgroundColor: focused ? '#0FB758' : '#F2F2F2',
+                width: 60,
+                height: 60,
+                borderRadius: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <AntDesign
+                name='product'
+                size={size}
+                color={focused ? '#fff' : '#666'}
+              />
+            </View>
           ),
         }}
       />
@@ -47,8 +78,23 @@ export default function TabsLayout() {
         options={{
           title: 'Configuración',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='settings' size={size} color={color} />
+          tabBarIcon: ({ size, focused }) => (
+            <View
+              style={{
+                backgroundColor: focused ? '#0FB758' : '#F2F2F2',
+                width: 60,
+                height: 60,
+                borderRadius: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Ionicons
+                name='settings'
+                size={size}
+                color={focused ? '#fff' : '#666'}
+              />
+            </View>
           ),
         }}
       />
@@ -57,8 +103,23 @@ export default function TabsLayout() {
         options={{
           title: 'Amor',
           headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='settings' size={size} color={color} />
+          tabBarIcon: ({ size, focused }) => (
+            <View
+              style={{
+                backgroundColor: focused ? '#0FB758' : '#F2F2F2',
+                width: 60,
+                height: 60,
+                borderRadius: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Ionicons
+                name='heart'
+                size={size}
+                color={focused ? '#fff' : '#666'}
+              />
+            </View>
           ),
         }}
       />
@@ -66,8 +127,24 @@ export default function TabsLayout() {
         name='profile'
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <FontAwesome name='user' size={size} color={color} />
+          headerShown: false,
+          tabBarIcon: ({ size, focused }) => (
+            <View
+              style={{
+                backgroundColor: focused ? '#0FB758' : '#F2F2F2',
+                width: 60,
+                height: 60,
+                borderRadius: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <FontAwesome
+                name='user'
+                size={size}
+                color={focused ? '#fff' : '#666'}
+              />
+            </View>
           ),
         }}
       />
