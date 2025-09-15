@@ -1,209 +1,334 @@
-import { Link, router } from 'expo-router';
-import React, { useState } from 'react';
+import { SocialLogin } from '@/components';
+import { Button, Checkbox, Input } from '@/components/ui';
 import {
-  ActivityIndicator,
+  EvilIcons,
+  Feather,
+  Ionicons,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { router } from 'expo-router';
+import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import {
   Alert,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { SocialLogin } from '@/components/social-login';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { z } from 'zod';
+
+const registerSchema = z
+  .object({
+    fullName: z
+      .string()
+      .min(1, 'Full name is required')
+      .min(2, 'Name must be at least 2 characters'),
+    email: z
+      .string()
+      .min(1, 'Email is required')
+      .email({ message: 'Enter a valid email' }),
+    password: z
+      .string()
+      .min(1, 'Password is required')
+      .min(6, 'Password must be at least 6 characters'),
+    confirmPassword: z.string().min(1, 'Confirm password is required'),
+    acceptTerms: z
+      .boolean()
+      .refine(
+        (val) => val === true,
+        'You must accept the terms and conditions'
+      ),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
+
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 export default function Register() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [name, setName] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const handleRegister = async () => {
-    if (
-      !email.trim() ||
-      !password.trim() ||
-      !confirmPassword.trim() ||
-      !name.trim()
-    ) {
-      Alert.alert('Error', 'Por favor completa todos los campos');
-      return;
-    }
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema) as any,
+    defaultValues: {
+      fullName: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      acceptTerms: false,
+    },
+  });
 
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Las contraseñas no coinciden');
-      return;
-    }
-
-    try {
-      setIsSubmitting(true);
-      // Simular registro - reemplaza con tu API real
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      Alert.alert(
-        'Registro exitoso',
-        'Tu cuenta ha sido creada. Ahora puedes iniciar sesión.',
-        [
-          {
-            text: 'OK',
-            onPress: () => router.replace('/sign-in'),
-          },
-        ]
-      );
-    } catch (error) {
-      Alert.alert('Error', 'Error al crear la cuenta');
-    } finally {
-      setIsSubmitting(false);
-    }
+  const onSubmit = async (data: RegisterFormData) => {
+    console.log('Registration data:', data);
+    Alert.alert('Success', 'Registration data logged to console');
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <View style={styles.form}>
-        <Text style={styles.title}>Create Account</Text>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Name</Text>
-          <TextInput
-            style={styles.input}
-            value={name}
-            onChangeText={setName}
-            placeholder='Your full name'
-            editable={!isSubmitting}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            style={styles.input}
-            value={email}
-            onChangeText={setEmail}
-            keyboardType='email-address'
-            autoCapitalize='none'
-            autoCorrect={false}
-            placeholder='you@email.com'
-            editable={!isSubmitting}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            style={styles.input}
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            placeholder='Your password'
-            editable={!isSubmitting}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Text style={styles.label}>Confirm Password</Text>
-          <TextInput
-            style={styles.input}
-            value={confirmPassword}
-            onChangeText={setConfirmPassword}
-            secureTextEntry
-            placeholder='Confirm your password'
-            editable={!isSubmitting}
-          />
-        </View>
-
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <View style={styles.header}>
         <TouchableOpacity
-          style={[styles.button, isSubmitting && styles.buttonDisabled]}
-          onPress={handleRegister}
-          disabled={isSubmitting}
+          style={styles.backButton}
+          onPress={() => router.back()}
         >
-          {isSubmitting ? (
-            <ActivityIndicator color='#fff' />
-          ) : (
-            <Text style={styles.buttonText}>Create Account</Text>
-          )}
+          <Ionicons name='chevron-back' size={24} color='black' />
         </TouchableOpacity>
-
-        <SocialLogin dividerText='Or Sign up with' />
-
-        <View style={styles.linkContainer}>
-          <Text style={styles.linkText}>Already have an account? </Text>
-          <Link href='/sign-in' style={styles.link}>
-            Sign In
-          </Link>
-        </View>
+        <Text style={styles.title}>Glamify</Text>
+        <View style={styles.placeholder} />
       </View>
-    </KeyboardAvoidingView>
+
+      <View style={styles.form}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
+          <Text style={styles.formTitle}>Create an Account?</Text>
+          <View style={styles.inputContainer}>
+            <Controller
+              control={control}
+              name='fullName'
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  label='Full Name'
+                  value={value}
+                  onChangeText={onChange}
+                  autoCapitalize='words'
+                  autoCorrect={false}
+                  placeholder='Micheal Johnson'
+                  editable={!isSubmitting}
+                  error={errors.fullName?.message}
+                  leftIcon={<EvilIcons name='user' size={24} color='#808080' />}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name='email'
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  label='Email'
+                  value={value}
+                  onChangeText={onChange}
+                  keyboardType='email-address'
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  placeholder='micheal09@gmail.com'
+                  editable={!isSubmitting}
+                  error={errors.email?.message}
+                  leftIcon={
+                    <MaterialCommunityIcons
+                      name='email-outline'
+                      size={24}
+                      color='#808080'
+                    />
+                  }
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name='password'
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  label='Password'
+                  value={value}
+                  onChangeText={onChange}
+                  secureTextEntry={!showPassword}
+                  placeholder='********'
+                  editable={!isSubmitting}
+                  error={errors.password?.message}
+                  leftIcon={
+                    <Ionicons
+                      name='lock-closed-outline'
+                      size={24}
+                      color='#808080'
+                    />
+                  }
+                  rightIcon={
+                    <Feather
+                      name={showPassword ? 'eye' : 'eye-off'}
+                      size={20}
+                      color='#808080'
+                    />
+                  }
+                  onRightIconPress={() => setShowPassword(!showPassword)}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name='confirmPassword'
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  label='Confirm Password'
+                  value={value}
+                  onChangeText={onChange}
+                  secureTextEntry={!showConfirmPassword}
+                  placeholder='********'
+                  editable={!isSubmitting}
+                  error={errors.confirmPassword?.message}
+                  leftIcon={
+                    <Ionicons
+                      name='lock-closed-outline'
+                      size={24}
+                      color='#808080'
+                    />
+                  }
+                  rightIcon={
+                    <Feather
+                      name={showConfirmPassword ? 'eye' : 'eye-off'}
+                      size={20}
+                      color='#808080'
+                    />
+                  }
+                  onRightIconPress={() =>
+                    setShowConfirmPassword(!showConfirmPassword)
+                  }
+                />
+              )}
+            />
+          </View>
+          <View style={styles.termsContainer}>
+            <Controller
+              control={control}
+              name='acceptTerms'
+              render={({ field: { onChange, value } }) => (
+                <Checkbox
+                  label='I accept the terms and conditions'
+                  checked={value}
+                  onValueChange={onChange}
+                />
+              )}
+            />
+            {errors.acceptTerms && (
+              <Text style={styles.errorText}>{errors.acceptTerms.message}</Text>
+            )}
+          </View>
+          <Button
+            title='Sign Up'
+            onPress={handleSubmit(onSubmit as any)}
+            loading={isSubmitting}
+          />
+
+          <SocialLogin />
+
+          <View style={styles.registerContainer}>
+            <Text style={styles.registerText}>Already have an account? </Text>
+            <TouchableOpacity onPress={() => router.back()}>
+              <Text style={styles.registerLink}>Login</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text style={styles.hint}>To test: test@example.com / password</Text>
+        </KeyboardAvoidingView>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+  },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+    borderRadius: 50,
+    backgroundColor: '#FFF',
+  },
+  placeholder: {
+    width: 48, // Same width as backButton to balance the layout
+  },
+  container: {
+    flexGrow: 1,
   },
   form: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: 20,
     paddingVertical: 32,
+    backgroundColor: 'white',
+    borderTopRightRadius: 32,
+    borderTopLeftRadius: 32,
+    marginTop: 20,
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 32,
-    color: '#333',
+  },
+  formTitle: {
+    fontSize: 28,
+    fontWeight: '500',
+    textAlign: 'center',
+    marginBottom: 57,
+    width: 262,
+    alignSelf: 'center',
   },
   inputContainer: {
-    marginBottom: 20,
+    gap: 21,
   },
-  label: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
-    color: '#333',
+  termsContainer: {
+    marginTop: 12,
+    marginBottom: 24,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    backgroundColor: '#fff',
+  errorText: {
+    color: '#EF4444',
+    fontSize: 12,
+    marginTop: 4,
   },
-  button: {
-    backgroundColor: '#007AFF',
-    borderRadius: 8,
-    paddingVertical: 16,
-    marginTop: 20,
-    alignItems: 'center',
+  forgotPasswordLink: {
+    fontSize: 12,
   },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  linkContainer: {
+  registerContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 24,
   },
-  linkText: {
-    fontSize: 16,
-    color: '#666',
+  registerText: {
+    fontSize: 14,
+    color: '#53565A',
   },
-  link: {
-    fontSize: 16,
+  registerLink: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  testButton: {
+    marginTop: 32,
+    alignItems: 'center',
+  },
+  testButtonText: {
     color: '#007AFF',
-    fontWeight: '600',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+  },
+  hint: {
+    textAlign: 'center',
+    marginTop: 16,
+    color: '#666',
+    fontSize: 14,
   },
 });

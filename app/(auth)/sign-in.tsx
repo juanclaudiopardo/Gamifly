@@ -147,11 +147,10 @@ export default function SignIn() {
                 />
               )}
             />
-            <Link href='/forgot-password' asChild>
-              <TouchableOpacity>
-                <Text style={styles.forgotPasswordLink}>Forgot password?</Text>
-              </TouchableOpacity>
-            </Link>
+
+            <TouchableOpacity onPress={() => console.log('Forgot Password')}>
+              <Text style={styles.forgotPasswordLink}>Forgot password?</Text>
+            </TouchableOpacity>
           </View>
           <Button
             title='Login'
@@ -160,12 +159,6 @@ export default function SignIn() {
           />
 
           <SocialLogin />
-
-          {/* Enlaces de navegación */}
-
-          {/* <Link href='/forgot-password' style={styles.forgotLink}>
-              Forgot your password?
-            </Link> */}
 
           <View style={styles.registerContainer}>
             <Text style={styles.registerText}>
