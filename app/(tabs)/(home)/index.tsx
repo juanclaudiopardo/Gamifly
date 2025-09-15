@@ -1,14 +1,69 @@
-import { Link } from 'expo-router';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useAuth } from '../../../context/AuthContext';
+import { Input } from '@/components/ui';
+import EvilIcons from '@expo/vector-icons/EvilIcons';
+import Feather from '@expo/vector-icons/Feather';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { Image } from 'expo-image';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Home() {
-  const { user } = useAuth();
-
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
+      <View
+        style={{
+          flexDirection: 'row',
+          gap: 12,
+          alignItems: 'center',
+          paddingHorizontal: 20,
+          paddingVertical: 10,
+        }}
+      >
+        <Image
+          source={require('@/assets/images/userAvatar.png')}
+          style={{
+            width: 50,
+            height: 50,
+            borderRadius: 50,
+            borderWidth: 1,
+            borderColor: '#E5E5E5',
+          }}
+        />
+
+        <Input
+          style={{ flex: 1, marginBottom: 5 }}
+          leftIcon={<EvilIcons name='search' size={24} color='black' />}
+          rightIcon={
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View
+                style={{
+                  width: 1,
+                  height: 20,
+                  backgroundColor: '#D1D5DB',
+                  marginRight: 12,
+                }}
+              />
+              <TouchableOpacity onPress={() => console.log('Filter pressed')}>
+                <Ionicons name='options-outline' size={20} color='#7E899A' />
+              </TouchableOpacity>
+            </View>
+          }
+          placeholder='Search here'
+        />
+        <TouchableOpacity
+          onPress={() => console.log('Scan pressed')}
+          style={{
+            backgroundColor: 'white',
+            width: 50,
+            height: 50,
+            borderRadius: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Feather name='shopping-bag' size={24} color='black' />
+        </TouchableOpacity>
+      </View>
+      {/* <View style={styles.content}>
         <Text style={styles.title}>¡Bienvenido!</Text>
         <Text style={styles.subtitle}>Hola, {user?.name || 'Usuario'}</Text>
 
@@ -52,7 +107,7 @@ export default function Home() {
             </TouchableOpacity>
           </Link>
         </View>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 }
