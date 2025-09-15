@@ -1,6 +1,8 @@
-export { default as Button } from './button';
-export type { ButtonProps, ButtonSize, ButtonVariant } from './button';
+export { Button } from './button';
+export type { ButtonProps, ButtonVariant } from './button';
 
-export { default as Avatar } from './avatar';
-export { default as Divider } from './divider';
-export { default as Input } from './input';
+export { Avatar } from './avatar';
+export { Checkbox } from './checkbox';
+export type { CheckboxProps } from './checkbox';
+export { Divider } from './divider';
+export { Input } from './input';

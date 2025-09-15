@@ -63,7 +63,7 @@ type InputProps = BaseInputProps &
     errorStyle?: TextStyle;
   };
 
-const Input = React.memo(
+export const Input = React.memo(
   forwardRef<TextInput, InputProps>(
     (
       {

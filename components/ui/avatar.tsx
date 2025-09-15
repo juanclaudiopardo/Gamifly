@@ -35,9 +35,9 @@ export interface AvatarProps extends Omit<TouchableOpacityProps, 'style'> {
   /**
    * Size of the avatar
    * @default 'medium'
-   * 
+   *
    * - `small`: 40x40px
-   * - `medium`: 56x56px  
+   * - `medium`: 56x56px
    * - `large`: 80x80px
    * - `number`: Custom size in pixels
    */
@@ -53,17 +53,17 @@ export interface AvatarProps extends Omit<TouchableOpacityProps, 'style'> {
   /**
    * Custom styles for the outer container
    * @default { padding: 16, backgroundColor: '#F5F6F7', borderRadius: 32 }
-   * 
+   *
    * Pass custom styles to override defaults or add additional styles.
    * To remove the container styling completely, pass an empty object: {}
-   * 
+   *
    * @example
    * // Override background color
    * containerStyle={{
    *   ...defaultContainerStyle,
    *   backgroundColor: '#FFFFFF'
    * }}
-   * 
+   *
    * // Remove container styling
    * containerStyle={{}}
    */
@@ -147,7 +147,7 @@ const getAvatarSize = (size: AvatarSize): number => {
   if (typeof size === 'number') {
     return size;
   }
-  
+
   switch (size) {
     case 'small':
       return 40;
@@ -168,30 +168,30 @@ const getFallbackFontSize = (avatarSize: number): number => {
 
 /**
  * A versatile and accessible avatar component using Expo Image
- * 
+ *
  * @component
  * @example
  * ```tsx
  * // Basic usage with image URL
- * <Avatar 
+ * <Avatar
  *   source="https://example.com/avatar.jpg"
  *   size="medium"
  * />
- * 
+ *
  * // With fallback text (initials)
  * <Avatar
  *   source={{ uri: userImageUrl }}
  *   fallbackText="JD"
  *   size="large"
  * />
- * 
+ *
  * // Circular avatar
  * <Avatar
  *   source={profileImage}
  *   size={60}
  *   borderRadius={30}
  * />
- * 
+ *
  * // Pressable avatar
  * <Avatar
  *   source={avatarUrl}
@@ -199,14 +199,14 @@ const getFallbackFontSize = (avatarSize: number): number => {
  *   accessibilityLabel="User profile picture"
  *   accessibilityHint="Tap to view profile"
  * />
- * 
+ *
  * // Custom fallback element
  * <Avatar
  *   source={userImage}
  *   fallback={<Icon name="person" size={24} color="#666" />}
  *   size="small"
  * />
- * 
+ *
  * // With custom container style (social login button style)
  * <Avatar
  *   source={require('@/assets/icons/google.png')}
@@ -218,217 +218,213 @@ const getFallbackFontSize = (avatarSize: number): number => {
  *   }}
  * />
  * ```
- * 
+ *
  * @remarks
  * - Uses Expo Image for optimized loading and caching
  * - Supports fallback content when image fails or is not provided
  * - Fully accessible with screen reader support
  * - Memoized for performance
  * - Supports both preset sizes and custom dimensions
- * 
+ *
  * @since 1.0.0
  */
-const Avatar: React.FC<AvatarProps> = React.memo(({
-  source,
-  size = 'medium',
-  borderRadius = 32,
-  containerStyle = {
-    padding: 16,
-    backgroundColor: '#F5F6F7',
-    borderRadius: 32,
-  },
-  fallbackText,
-  fallback,
-  fallbackBackgroundColor = '#E5E5E5',
-  fallbackTextColor = '#666666',
-  showLoadingIndicator = true,
-  loadingIndicatorColor = '#999999',
-  style,
-  fallbackTextStyle,
-  imageProps,
-  accessibilityLabel = 'User avatar',
-  accessibilityHint,
-  activeOpacity = 0.7,
-  onPress,
-  disabled,
-  ...pressableProps
-}) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
-
-  // Calculate avatar dimensions
-  const avatarSize = useMemo(() => getAvatarSize(size), [size]);
-  
-  // Calculate font size for fallback text
-  const fallbackFontSize = useMemo(
-    () => getFallbackFontSize(avatarSize),
-    [avatarSize]
-  );
-
-  // Container styles
-  const containerStyles = useMemo<ViewStyle[]>(() => {
-    const baseStyles: ViewStyle[] = [
-      styles.container,
-      {
-        width: avatarSize,
-        height: avatarSize,
-        borderRadius,
-      },
-    ];
-    if (style) {
-      baseStyles.push(style);
-    }
-    return baseStyles;
-  }, [avatarSize, borderRadius, style]);
-
-  // Fallback container styles
-  const fallbackContainerStyles = useMemo<ViewStyle[]>(() => [
-    styles.fallbackContainer,
-    {
-      width: avatarSize,
-      height: avatarSize,
-      borderRadius,
-      backgroundColor: fallbackBackgroundColor,
+export const Avatar: React.FC<AvatarProps> = React.memo(
+  ({
+    source,
+    size = 'medium',
+    borderRadius = 32,
+    containerStyle = {
+      padding: 16,
+      backgroundColor: '#F5F6F7',
+      borderRadius: 32,
     },
-  ], [avatarSize, borderRadius, fallbackBackgroundColor]);
+    fallbackText,
+    fallback,
+    fallbackBackgroundColor = '#E5E5E5',
+    fallbackTextColor = '#666666',
+    showLoadingIndicator = true,
+    loadingIndicatorColor = '#999999',
+    style,
+    fallbackTextStyle,
+    imageProps,
+    accessibilityLabel = 'User avatar',
+    accessibilityHint,
+    activeOpacity = 0.7,
+    onPress,
+    disabled,
+    ...pressableProps
+  }) => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasError, setHasError] = useState(false);
 
-  // Fallback text styles
-  const textStyles = useMemo<TextStyle[]>(() => {
-    const baseStyles: TextStyle[] = [
-      styles.fallbackText,
-      {
-        fontSize: fallbackFontSize,
-        color: fallbackTextColor,
-      },
-    ];
-    if (fallbackTextStyle) {
-      baseStyles.push(fallbackTextStyle);
-    }
-    return baseStyles;
-  }, [fallbackFontSize, fallbackTextColor, fallbackTextStyle]);
+    // Calculate avatar dimensions
+    const avatarSize = useMemo(() => getAvatarSize(size), [size]);
 
-  // Handle image load start
-  const handleLoadStart = useCallback(() => {
-    setIsLoading(true);
-    setHasError(false);
-  }, []);
+    // Calculate font size for fallback text
+    const fallbackFontSize = useMemo(
+      () => getFallbackFontSize(avatarSize),
+      [avatarSize]
+    );
 
-  // Handle image load end
-  const handleLoadEnd = useCallback(() => {
-    setIsLoading(false);
-  }, []);
+    // Container styles
+    const containerStyles = useMemo<ViewStyle[]>(() => {
+      const baseStyles: ViewStyle[] = [
+        styles.container,
+        {
+          width: avatarSize,
+          height: avatarSize,
+          borderRadius,
+        },
+      ];
+      if (style) {
+        baseStyles.push(style);
+      }
+      return baseStyles;
+    }, [avatarSize, borderRadius, style]);
 
-  // Handle image error
-  const handleError = useCallback(() => {
-    setIsLoading(false);
-    setHasError(true);
-  }, []);
+    // Fallback container styles
+    const fallbackContainerStyles = useMemo<ViewStyle[]>(
+      () => [
+        styles.fallbackContainer,
+        {
+          width: avatarSize,
+          height: avatarSize,
+          borderRadius,
+          backgroundColor: fallbackBackgroundColor,
+        },
+      ],
+      [avatarSize, borderRadius, fallbackBackgroundColor]
+    );
 
-  // Determine if we should show fallback
-  const shouldShowFallback = !source || hasError;
+    // Fallback text styles
+    const textStyles = useMemo<TextStyle[]>(() => {
+      const baseStyles: TextStyle[] = [
+        styles.fallbackText,
+        {
+          fontSize: fallbackFontSize,
+          color: fallbackTextColor,
+        },
+      ];
+      if (fallbackTextStyle) {
+        baseStyles.push(fallbackTextStyle);
+      }
+      return baseStyles;
+    }, [fallbackFontSize, fallbackTextColor, fallbackTextStyle]);
 
-  // Render fallback content
-  const renderFallback = () => {
-    if (fallback) {
-      return fallback;
-    }
-    
-    if (fallbackText) {
+    // Handle image load start
+    const handleLoadStart = useCallback(() => {
+      setIsLoading(true);
+      setHasError(false);
+    }, []);
+
+    // Handle image load end
+    const handleLoadEnd = useCallback(() => {
+      setIsLoading(false);
+    }, []);
+
+    // Handle image error
+    const handleError = useCallback(() => {
+      setIsLoading(false);
+      setHasError(true);
+    }, []);
+
+    // Determine if we should show fallback
+    const shouldShowFallback = !source || hasError;
+
+    // Render fallback content
+    const renderFallback = () => {
+      if (fallback) {
+        return fallback;
+      }
+
+      if (fallbackText) {
+        return (
+          <Text style={textStyles} numberOfLines={1}>
+            {fallbackText}
+          </Text>
+        );
+      }
+
+      return null;
+    };
+
+    // Prepare image source
+    const imageSource = useMemo(() => {
+      if (!source) return undefined;
+
+      if (typeof source === 'string') {
+        return { uri: source };
+      }
+
+      return source;
+    }, [source]);
+
+    // Render avatar content
+    const avatarContent = (
+      <View style={containerStyles}>
+        {shouldShowFallback ? (
+          <View style={fallbackContainerStyles}>{renderFallback()}</View>
+        ) : (
+          <>
+            <Image
+              source={imageSource}
+              style={[
+                styles.image,
+                {
+                  width: avatarSize,
+                  height: avatarSize,
+                  borderRadius,
+                },
+              ]}
+              contentFit='cover'
+              onLoadStart={handleLoadStart}
+              onLoadEnd={handleLoadEnd}
+              onError={handleError}
+              {...imageProps}
+            />
+            {isLoading && showLoadingIndicator && (
+              <View style={[styles.loadingContainer, { borderRadius }]}>
+                <ActivityIndicator size='small' color={loadingIndicatorColor} />
+              </View>
+            )}
+          </>
+        )}
+      </View>
+    );
+
+    // Always wrap with container since we have default containerStyle
+    const content = <View style={containerStyle}>{avatarContent}</View>;
+
+    // If onPress is provided, wrap in TouchableOpacity
+    if (onPress) {
       return (
-        <Text style={textStyles} numberOfLines={1}>
-          {fallbackText}
-        </Text>
+        <TouchableOpacity
+          {...pressableProps}
+          onPress={onPress}
+          disabled={disabled}
+          activeOpacity={activeOpacity}
+          accessibilityRole='imagebutton'
+          accessibilityLabel={accessibilityLabel}
+          accessibilityHint={accessibilityHint}
+        >
+          {content}
+        </TouchableOpacity>
       );
     }
-    
-    return null;
-  };
 
-  // Prepare image source
-  const imageSource = useMemo(() => {
-    if (!source) return undefined;
-    
-    if (typeof source === 'string') {
-      return { uri: source };
-    }
-    
-    return source;
-  }, [source]);
-
-  // Render avatar content
-  const avatarContent = (
-    <View style={containerStyles}>
-      {shouldShowFallback ? (
-        <View style={fallbackContainerStyles}>
-          {renderFallback()}
-        </View>
-      ) : (
-        <>
-          <Image
-            source={imageSource}
-            style={[
-              styles.image,
-              {
-                width: avatarSize,
-                height: avatarSize,
-                borderRadius,
-              },
-            ]}
-            contentFit="cover"
-            onLoadStart={handleLoadStart}
-            onLoadEnd={handleLoadEnd}
-            onError={handleError}
-            {...imageProps}
-          />
-          {isLoading && showLoadingIndicator && (
-            <View style={[styles.loadingContainer, { borderRadius }]}>
-              <ActivityIndicator
-                size="small"
-                color={loadingIndicatorColor}
-              />
-            </View>
-          )}
-        </>
-      )}
-    </View>
-  );
-
-  // Always wrap with container since we have default containerStyle
-  const content = (
-    <View style={containerStyle}>
-      {avatarContent}
-    </View>
-  );
-
-  // If onPress is provided, wrap in TouchableOpacity
-  if (onPress) {
+    // Otherwise, render content directly
     return (
-      <TouchableOpacity
-        {...pressableProps}
-        onPress={onPress}
-        disabled={disabled}
-        activeOpacity={activeOpacity}
-        accessibilityRole="imagebutton"
+      <View
+        accessible
+        accessibilityRole='image'
         accessibilityLabel={accessibilityLabel}
         accessibilityHint={accessibilityHint}
       >
         {content}
-      </TouchableOpacity>
+      </View>
     );
   }
-
-  // Otherwise, render content directly
-  return (
-    <View
-      accessible
-      accessibilityRole="image"
-      accessibilityLabel={accessibilityLabel}
-      accessibilityHint={accessibilityHint}
-    >
-      {content}
-    </View>
-  );
-});
+);
 
 /**
  * Display name for React DevTools
@@ -468,5 +464,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
 });
-
-export default Avatar;

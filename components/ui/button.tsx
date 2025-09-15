@@ -34,12 +34,6 @@ const COLORS = {
 export type ButtonVariant = 'default' | 'outline' | 'ghost';
 
 /**
- * Available button sizes
- * @public
- */
-export type ButtonSize = 'small' | 'medium' | 'large';
-
-/**
  * Base properties for the Button component
  * @interface BaseButtonProps
  */
@@ -60,16 +54,6 @@ interface BaseButtonProps {
    * - `ghost`: Transparent background and border
    */
   variant?: ButtonVariant;
-
-  /**
-   * Size of the button affecting padding and text size
-   * @default 'medium'
-   *
-   * - `small`: 32px min height, 14px font
-   * - `medium`: 44px min height, 16px font
-   * - `large`: 56px min height, 18px font
-   */
-  size?: ButtonSize;
 
   /**
    * Disables the button preventing user interaction
@@ -181,11 +165,10 @@ export type ButtonProps = BaseButtonProps &
  *   onPress={handleSave}
  * />
  *
- * // With variant and size
+ * // With variant
  * <Button
  *   title="Cancel"
  *   variant="outline"
- *   size="small"
  *   onPress={handleCancel}
  * />
  *
@@ -223,11 +206,10 @@ export type ButtonProps = BaseButtonProps &
  *
  * @since 1.0.0
  */
-const Button: React.FC<ButtonProps> = React.memo(
+export const Button: React.FC<ButtonProps> = React.memo(
   ({
     title,
     variant = 'default',
-    size = 'medium',
     disabled = false,
     loading = false,
     spinnerColor,
@@ -267,7 +249,6 @@ const Button: React.FC<ButtonProps> = React.memo(
         (pressed: boolean): ViewStyle[] => {
           const baseStyles: ViewStyle[] = [
             styles.baseButton,
-            styles[`size_${size}`],
           ];
 
           // Only apply pressed if not functionally disabled
@@ -298,7 +279,7 @@ const Button: React.FC<ButtonProps> = React.memo(
 
           return baseStyles;
         },
-      [variant, size, disabled, isDisabled]
+      [variant, disabled, isDisabled]
     );
 
     /**
@@ -308,7 +289,7 @@ const Button: React.FC<ButtonProps> = React.memo(
     const getTextStyles = useMemo((): TextStyle[] => {
       const baseTextStyles: TextStyle[] = [
         styles.baseText,
-        styles[`text_${size}`],
+        styles.textSize,
       ];
 
       // Only apply disabled styles when disabled is true (not when loading is true)
@@ -330,7 +311,7 @@ const Button: React.FC<ButtonProps> = React.memo(
       }
 
       return baseTextStyles;
-    }, [variant, size, disabled]);
+    }, [variant, disabled]);
 
     /**
      * Determines the color of the loading spinner
@@ -353,15 +334,8 @@ const Button: React.FC<ButtonProps> = React.memo(
      * @returns Pixel value for margin
      */
     const getIconSpacing = useMemo((): number => {
-      switch (size) {
-        case 'small':
-          return 6;
-        case 'large':
-          return 10;
-        default:
-          return 8;
-      }
-    }, [size]);
+      return 10; // Using large size spacing
+    }, []);
 
     /**
      * Handles button press events with optional haptic feedback
@@ -453,6 +427,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: 'transparent',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    minHeight: 54,
   },
   baseText: {
     fontWeight: '400',
@@ -475,31 +452,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  // Sizes
-  size_small: {
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    minHeight: 32,
-  },
-  size_medium: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    minHeight: 44,
-  },
-  size_large: {
-    paddingHorizontal: 24,
-    paddingVertical: 16,
-    minHeight: 54,
-  },
-
-  // Text sizes
-  text_small: {
-    fontSize: 12,
-  },
-  text_medium: {
-    fontSize: 14,
-  },
-  text_large: {
+  // Text size (using large as default)
+  textSize: {
     fontSize: 16,
   },
 
@@ -575,5 +529,3 @@ const styles = StyleSheet.create({
  * @example
  * import { ButtonVariant, ButtonSize } from '@/components/button';
  */
-
-export default Button;

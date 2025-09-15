@@ -1,5 +1,5 @@
-import { Button, Input } from '@/components/ui';
 import { SocialLogin } from '@/components/social-login';
+import { Button, Checkbox, Input } from '@/components/ui';
 import { useAuth } from '@/context/AuthContext';
 import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -12,6 +12,7 @@ import {
   Platform,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -21,6 +22,7 @@ export default function SignIn() {
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [accepted, setAccepted] = useState(false);
   const { signIn } = useAuth();
 
   const handleSignIn = async () => {
@@ -97,29 +99,44 @@ export default function SignIn() {
               onRightIconPress={() => setShowPassword(!showPassword)}
             />
           </View>
-          <Button
-            title='Login'
-            onPress={handleSignIn}
-            loading={isSubmitting}
-            size='large'
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 12,
+              marginBottom: 24,
+            }}
+          >
+            <Checkbox
+              label='Remember me'
+              checked={accepted}
+              onValueChange={setAccepted}
+            />
+            <Link href='/forgot-password' asChild>
+              <TouchableOpacity>
+                <Text style={styles.forgotPasswordLink}>Forgot password?</Text>
+              </TouchableOpacity>
+            </Link>
+          </View>
+          <Button title='Login' onPress={handleSignIn} loading={isSubmitting} />
 
           <SocialLogin />
 
           {/* Enlaces de navegación */}
-          <View style={styles.linksContainer}>
-            <Link href='/forgot-password' style={styles.forgotLink}>
-              Forgot your password?
-            </Link>
 
-            <View style={styles.registerContainer}>
-              <Text style={styles.registerText}>
-                Don&apos;t have an account?{' '}
-              </Text>
-              <Link href='/register' style={styles.registerLink}>
-                Sign up
-              </Link>
-            </View>
+          {/* <Link href='/forgot-password' style={styles.forgotLink}>
+              Forgot your password?
+            </Link> */}
+
+          <View style={styles.registerContainer}>
+            <Text style={styles.registerText}>
+              Don&apos;t have an account?{' '}
+            </Text>
+            <Link href='/register' asChild>
+              <TouchableOpacity>
+                <Text style={styles.registerLink}>Create an account</Text>
+              </TouchableOpacity>
+            </Link>
           </View>
 
           <Text style={styles.hint}>To test: test@example.com / password</Text>
@@ -132,7 +149,6 @@ export default function SignIn() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
   form: {
     flex: 1,
@@ -157,61 +173,22 @@ const styles = StyleSheet.create({
     width: 262,
     alignSelf: 'center',
   },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginBottom: 8,
-    color: '#333',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-    backgroundColor: '#fff',
-  },
-  button: {
-    backgroundColor: '#007AFF',
-    borderRadius: 8,
-    paddingVertical: 16,
-    marginTop: 20,
-    alignItems: 'center',
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  linksContainer: {
-    marginTop: 24,
-    alignItems: 'center',
-  },
-  forgotLink: {
-    fontSize: 16,
-    color: '#007AFF',
-    textDecorationLine: 'underline',
-    marginBottom: 16,
+
+  forgotPasswordLink: {
+    fontSize: 12,
   },
   registerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   registerText: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: 14,
+    color: '#53565A',
   },
   registerLink: {
-    fontSize: 16,
-    color: '#007AFF',
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: '500',
   },
   testButton: {
     marginTop: 32,

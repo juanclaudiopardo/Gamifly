@@ -22,7 +22,7 @@ export interface DividerProps extends ViewProps {
 /**
  * Divider component to separate sections
  */
-const Divider: React.FC<DividerProps> = ({
+export const Divider: React.FC<DividerProps> = ({
   color = '#E0E0E0',
   style,
   orientation = 'horizontal',
@@ -48,4 +48,3 @@ const Divider: React.FC<DividerProps> = ({
 
   return <View style={[dividerStyle, style]} {...rest} />;
 };
-export default Divider;

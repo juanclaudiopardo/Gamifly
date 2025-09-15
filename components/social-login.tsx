@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import { Avatar, Divider } from '@/components/ui';
-import { socialProviders, SocialProvider } from '@/data/social-providers';
+import { SocialProvider, socialProviders } from '@/data/social-providers';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
 interface SocialLoginProps {
   dividerText?: string;
@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 20,
     marginTop: 20,
+    marginBottom: 44,
   },
   divider: {
     width: '50%',
@@ -62,7 +63,6 @@ const styles = StyleSheet.create({
   },
   providersContainer: {
     flexDirection: 'row',
-    marginVertical: 20,
     gap: 16,
     alignItems: 'center',
     justifyContent: 'center',
