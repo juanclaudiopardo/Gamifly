@@ -6,7 +6,19 @@
       "Bash(npx expo install:*)",
       "Bash(npm run lint)",
       "mcp__ide__getDiagnostics",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)"
     ],
     "deny": [],
     "ask": []

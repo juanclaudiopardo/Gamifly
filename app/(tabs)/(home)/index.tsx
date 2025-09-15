@@ -1,5 +1,5 @@
-import { SearchHeader } from '@/components/home';
-import { StyleSheet } from 'react-native';
+import { Carousel, SearchHeader } from '@/components/home';
+import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Home() {
@@ -13,10 +13,13 @@ export default function Home() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <SearchHeader 
-        onFilterPress={handleFilterPress}
-        onScanPress={handleScanPress}
-      />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <SearchHeader 
+          onFilterPress={handleFilterPress}
+          onScanPress={handleScanPress}
+        />
+        <Carousel showDots={false} />
+      </ScrollView>
     </SafeAreaView>
   );
 }
