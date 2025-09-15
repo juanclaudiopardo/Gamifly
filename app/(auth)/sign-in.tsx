@@ -4,8 +4,10 @@ import { useAuth } from '@/context/AuthContext';
 import Feather from '@expo/vector-icons/Feather';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Link } from 'expo-router';
 import React, { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -16,31 +18,44 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { z } from 'zod';
+
+const signInSchema = z.object({
+  email: z.email({ message: 'Enter a valid email' }),
+  password: z
+    .string()
+    .min(1, 'Password is required')
+    .min(6, 'Password must be at least 6 characters'),
+  rememberMe: z.boolean().default(false),
+});
+
+type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [accepted, setAccepted] = useState(false);
   const { signIn } = useAuth();
 
-  const handleSignIn = async () => {
-    if (!email.trim() || !password.trim()) {
-      Alert.alert('Error', 'Por favor ingresa email y contraseña');
-      return;
-    }
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema) as any,
+    defaultValues: {
+      email: '',
+      password: '',
+      rememberMe: false,
+    },
+  });
 
+  const onSubmit = async (data: SignInFormData) => {
     try {
-      setIsSubmitting(true);
-      await signIn(email.trim(), password);
+      await signIn(data.email.trim(), data.password);
     } catch (error) {
       Alert.alert(
         'Error',
         error instanceof Error ? error.message : 'Error al iniciar sesión'
       );
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -57,46 +72,60 @@ export default function SignIn() {
         <View style={styles.form}>
           <Text style={styles.formTitle}>Welcome to Glamify Login now!</Text>
           <View style={{ gap: 21 }}>
-            <Input
-              label='Email'
-              value={email}
-              onChangeText={setEmail}
-              keyboardType='email-address'
-              autoCapitalize='none'
-              autoCorrect={false}
-              placeholder='micheal09@gmail.com'
-              editable={!isSubmitting}
-              leftIcon={
-                <MaterialCommunityIcons
-                  name='email-outline'
-                  size={24}
-                  color='#808080'
+            <Controller
+              control={control}
+              name='email'
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  label='Email'
+                  value={value}
+                  onChangeText={onChange}
+                  keyboardType='email-address'
+                  autoCapitalize='none'
+                  autoCorrect={false}
+                  placeholder='micheal09@gmail.com'
+                  editable={!isSubmitting}
+                  error={errors.email?.message}
+                  leftIcon={
+                    <MaterialCommunityIcons
+                      name='email-outline'
+                      size={24}
+                      color='#808080'
+                    />
+                  }
                 />
-              }
+              )}
             />
 
-            <Input
-              label='Password'
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-              placeholder='********'
-              editable={!isSubmitting}
-              leftIcon={
-                <Ionicons
-                  name='lock-closed-outline'
-                  size={24}
-                  color='#808080'
+            <Controller
+              control={control}
+              name='password'
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  label='Password'
+                  value={value}
+                  onChangeText={onChange}
+                  secureTextEntry={!showPassword}
+                  placeholder='********'
+                  editable={!isSubmitting}
+                  error={errors.password?.message}
+                  leftIcon={
+                    <Ionicons
+                      name='lock-closed-outline'
+                      size={24}
+                      color='#808080'
+                    />
+                  }
+                  rightIcon={
+                    <Feather
+                      name={showPassword ? 'eye' : 'eye-off'}
+                      size={20}
+                      color='#808080'
+                    />
+                  }
+                  onRightIconPress={() => setShowPassword(!showPassword)}
                 />
-              }
-              rightIcon={
-                <Feather
-                  name={showPassword ? 'eye' : 'eye-off'}
-                  size={20}
-                  color='#808080'
-                />
-              }
-              onRightIconPress={() => setShowPassword(!showPassword)}
+              )}
             />
           </View>
           <View
@@ -107,10 +136,16 @@ export default function SignIn() {
               marginBottom: 24,
             }}
           >
-            <Checkbox
-              label='Remember me'
-              checked={accepted}
-              onValueChange={setAccepted}
+            <Controller
+              control={control}
+              name='rememberMe'
+              render={({ field: { onChange, value } }) => (
+                <Checkbox
+                  label='Remember me'
+                  checked={value}
+                  onValueChange={onChange}
+                />
+              )}
             />
             <Link href='/forgot-password' asChild>
               <TouchableOpacity>
@@ -118,7 +153,11 @@ export default function SignIn() {
               </TouchableOpacity>
             </Link>
           </View>
-          <Button title='Login' onPress={handleSignIn} loading={isSubmitting} />
+          <Button
+            title='Login'
+            onPress={handleSubmit(onSubmit as any)}
+            loading={isSubmitting}
+          />
 
           <SocialLogin />
 
@@ -181,6 +220,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: 24,
   },
   registerText: {
     fontSize: 14,

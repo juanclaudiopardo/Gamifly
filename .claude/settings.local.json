@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "Bash(mv:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(npx expo install:*)",
+      "Bash(npm run lint)",
+      "mcp__ide__getDiagnostics"
     ],
     "deny": [],
     "ask": []
