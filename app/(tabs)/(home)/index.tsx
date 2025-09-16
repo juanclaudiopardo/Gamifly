@@ -1,5 +1,12 @@
-import { Carousel, FeatureCard, SearchHeader } from '@/components/home';
-import { ScrollView, StyleSheet } from 'react-native';
+import { SectionHeader } from '@/components/common';
+import {
+  Carousel,
+  FeatureCard,
+  HomeCard,
+  SearchHeader,
+} from '@/components/home';
+import { homeCards } from '@/data/home-cards';
+import { FlatList, ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Home() {
@@ -29,6 +36,16 @@ export default function Home() {
           subtitle='Glow deeper skincare solutions.'
           onPress={() => console.log('Feature card pressed')}
         />
+
+        <SectionHeader title='New Launches' actionHref='/collection' />
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={homeCards}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <HomeCard card={item} />}
+          contentContainerStyle={styles.cardList}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -39,80 +56,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  content: {
+  cardList: {
+    gap: 24,
     flex: 1,
-    padding: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 18,
-    color: '#666',
-    marginBottom: 24,
-    textAlign: 'center',
-  },
-  infoCard: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 20,
-    marginBottom: 24,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 12,
-  },
-  cardText: {
-    fontSize: 16,
-    color: '#666',
-    lineHeight: 24,
-    marginBottom: 8,
-  },
-  navigationSection: {
-    flex: 1,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 16,
-  },
-  navButton: {
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  navButtonText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#007AFF',
-    marginBottom: 4,
-  },
-  navButtonSubtext: {
-    fontSize: 14,
-    color: '#666',
+    justifyContent: 'center',
+    marginTop: 16,
   },
 });

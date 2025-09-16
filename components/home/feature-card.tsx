@@ -49,6 +49,7 @@ export const FeatureCard = ({
 const styles = StyleSheet.create({
   wrapper: {
     marginHorizontal: 20,
+    height: 100,
     alignItems: 'center',
     position: 'relative',
   },
