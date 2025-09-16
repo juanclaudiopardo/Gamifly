@@ -1,7 +1,5 @@
-import { Input } from '@/components/ui';
-import EvilIcons from '@expo/vector-icons/EvilIcons';
+import { SearchBar } from '@/components/ui/search-bar';
 import Feather from '@expo/vector-icons/Feather';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { Image } from 'expo-image';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
@@ -21,18 +19,9 @@ export const SearchHeader = ({
         style={styles.avatar}
       />
 
-      <Input
-        style={styles.searchInput}
-        inputContainerStyle={styles.searchInputContainer}
-        leftIcon={<EvilIcons name='search' size={24} color='black' />}
-        rightIcon={
-          <View style={styles.rightIconContainer}>
-            <View style={styles.divider} />
-            <TouchableOpacity onPress={onFilterPress}>
-              <Ionicons name='options-outline' size={20} color='#7E899A' />
-            </TouchableOpacity>
-          </View>
-        }
+      <SearchBar
+        onFilterPress={onFilterPress}
+        containerStyle={styles.searchInput}
         placeholder='Search here'
       />
 
@@ -60,21 +49,6 @@ const styles = StyleSheet.create({
   },
   searchInput: {
     flex: 1,
-    marginBottom: 5,
-  },
-  searchInputContainer: {
-    borderWidth: 0,
-    backgroundColor: '#FFFFFF',
-  },
-  rightIconContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  divider: {
-    width: 1,
-    height: 20,
-    backgroundColor: '#D1D5DB',
-    marginRight: 12,
   },
   scanButton: {
     backgroundColor: 'white',
