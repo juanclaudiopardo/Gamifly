@@ -1,5 +1,5 @@
 import { Text } from 'react-native';
 
-export default function Love() {
+export default function Popular() {
   return <Text>Love</Text>;
 }

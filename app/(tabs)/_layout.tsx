@@ -96,9 +96,9 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name='love'
+        name='popular'
         options={{
-          title: 'Amor',
+          title: 'Popular',
           headerShown: false,
           tabBarIcon: ({ size, focused }) => (
             <View

@@ -1,15 +1,8 @@
+import { Product } from '@/data/collections-data';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-export interface Product {
-  id: string;
-  name: string;
-  image: any;
-  currentPrice: number;
-  originalPrice: number;
-}
 
 interface ProductCardProps {
   product: Product;
@@ -40,17 +33,9 @@ export const ProductCard = ({
         <Image source={product.image} style={styles.image} />
         <TouchableOpacity style={styles.heartButton} onPress={handleHeartPress}>
           {isLiked ? (
-            <AntDesign
-              name="heart"
-              size={20}
-              color="#EF4444"
-            />
+            <AntDesign name='heart' size={20} color='#EF4444' />
           ) : (
-            <Feather
-              name="heart"
-              size={20}
-              color="#9CA3AF"
-            />
+            <Feather name='heart' size={20} color='#9CA3AF' />
           )}
         </TouchableOpacity>
       </View>
@@ -64,7 +49,7 @@ export const ProductCard = ({
           </Text>
         </View>
         <TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
-          <Feather name="shopping-bag" size={16} color="white" />
+          <Feather name='shopping-bag' size={16} color='white' />
         </TouchableOpacity>
       </View>
     </View>

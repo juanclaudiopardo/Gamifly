@@ -1,39 +1,21 @@
-import { ProductCard, type Product } from '@/components/collections';
+import {
+  CategoryBanner,
+  PopularCard,
+  ProductCard,
+} from '@/components/collections';
 import { SectionHeader } from '@/components/common';
-import { Image } from 'expo-image';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { collectionsData } from '@/data/collections-data';
+import { popularData } from '@/data/popular-data';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-const collectionsData: Product[] = [
-  {
-    id: '1',
-    name: 'Moisturizing',
-    image: require('@/assets/collections/product1.png'),
-    currentPrice: 103,
-    originalPrice: 117,
-  },
-  {
-    id: '2',
-    name: 'Deep Breath',
-    image: require('@/assets/collections/product2.png'),
-    currentPrice: 79,
-    originalPrice: 81,
-  },
-];
 
 export default function Collection() {
   return (
     <SafeAreaView style={{ paddingHorizontal: 20 }}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={require('@/assets/collections/allProducts.png')}
-          style={styles.image}
-        />
-        <View style={styles.overlay} />
-        <View style={styles.textContainer}>
-          <Text style={styles.overlayText}>All Products</Text>
-        </View>
-      </View>
+      <CategoryBanner
+        image={require('@/assets/collections/allProducts.png')}
+        title='All Products'
+      />
       <SectionHeader title='Best Sellers' actionHref='/' />
       <FlatList
         data={collectionsData}
@@ -56,44 +38,24 @@ export default function Collection() {
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
       />
+      <SectionHeader title='Popular' actionHref='/popular' />
+      <View style={{ gap: 16, marginTop: 16 }}>
+        {popularData.map((item) => (
+          <PopularCard
+            key={item.id}
+            image={item.image}
+            brand={item.brand}
+            product={item.product}
+            price={item.price}
+            originalPrice={item.originalPrice}
+          />
+        ))}
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  imageContainer: {
-    position: 'relative',
-    width: '100%',
-    height: 123,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 20,
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    borderRadius: 20,
-  },
-  textContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  overlayText: {
-    color: 'white',
-    fontSize: 17,
-    fontWeight: '500',
-  },
   listContainer: {
     paddingTop: 16,
     gap: 16,
