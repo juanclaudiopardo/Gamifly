@@ -1,7 +1,25 @@
+import { ProductCard, type Product } from '@/components/collections';
 import { SectionHeader } from '@/components/common';
 import { Image } from 'expo-image';
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+const collectionsData: Product[] = [
+  {
+    id: '1',
+    name: 'Moisturizing',
+    image: require('@/assets/collections/product1.png'),
+    currentPrice: 103,
+    originalPrice: 117,
+  },
+  {
+    id: '2',
+    name: 'Deep Breath',
+    image: require('@/assets/collections/product2.png'),
+    currentPrice: 79,
+    originalPrice: 81,
+  },
+];
 
 export default function Collection() {
   return (
@@ -17,6 +35,27 @@ export default function Collection() {
         </View>
       </View>
       <SectionHeader title='Best Sellers' actionHref='/' />
+      <FlatList
+        data={collectionsData}
+        renderItem={({ item }) => (
+          <ProductCard
+            product={item}
+            onHeartPress={(productId, isLiked) => {
+              console.log(
+                `Product ${productId} ${isLiked ? 'liked' : 'unliked'}`
+              );
+            }}
+            onAddToCart={(productId) => {
+              console.log(`Product ${productId} added to cart`);
+            }}
+          />
+        )}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
+        contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false}
+      />
     </SafeAreaView>
   );
 }
@@ -54,5 +93,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 17,
     fontWeight: '500',
+  },
+  listContainer: {
+    paddingTop: 16,
+    gap: 16,
+  },
+  row: {
+    justifyContent: 'space-between',
   },
 });
