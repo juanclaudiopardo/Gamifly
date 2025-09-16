@@ -52,6 +52,7 @@ type InputProps = BaseInputProps &
     inputStyle?: TextStyle;
     labelStyle?: TextStyle;
     errorStyle?: TextStyle;
+    inputContainerStyle?: ViewStyle;
   };
 
 export const Input = React.memo(
@@ -71,6 +72,7 @@ export const Input = React.memo(
         inputStyle,
         labelStyle,
         errorStyle,
+        inputContainerStyle,
         editable = true,
         ...textInputProps
       },
@@ -98,9 +100,12 @@ export const Input = React.memo(
         if (!editable) {
           baseStyles.push(styles.disabledInputContainer);
         }
+        if (inputContainerStyle) {
+          baseStyles.push(inputContainerStyle);
+        }
 
         return baseStyles;
-      }, [error, editable]);
+      }, [error, editable, inputContainerStyle]);
 
       const getInputStyles = useMemo((): TextStyle[] => {
         const baseStyles: TextStyle[] = [styles.baseInput];

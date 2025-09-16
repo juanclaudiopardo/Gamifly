@@ -10,16 +10,20 @@ interface SearchHeaderProps {
   onScanPress?: () => void;
 }
 
-export const SearchHeader = ({ onFilterPress, onScanPress }: SearchHeaderProps = {}) => {
+export const SearchHeader = ({
+  onFilterPress,
+  onScanPress,
+}: SearchHeaderProps = {}) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('@/assets/images/userAvatar.png')}
+        source={require('@/assets/home/userAvatar.png')}
         style={styles.avatar}
       />
 
       <Input
         style={styles.searchInput}
+        inputContainerStyle={styles.searchInputContainer}
         leftIcon={<EvilIcons name='search' size={24} color='black' />}
         rightIcon={
           <View style={styles.rightIconContainer}>
@@ -31,11 +35,8 @@ export const SearchHeader = ({ onFilterPress, onScanPress }: SearchHeaderProps =
         }
         placeholder='Search here'
       />
-      
-      <TouchableOpacity
-        onPress={onScanPress}
-        style={styles.scanButton}
-      >
+
+      <TouchableOpacity onPress={onScanPress} style={styles.scanButton}>
         <Feather name='shopping-bag' size={24} color='black' />
       </TouchableOpacity>
     </View>
@@ -60,6 +61,10 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     marginBottom: 5,
+  },
+  searchInputContainer: {
+    borderWidth: 0,
+    backgroundColor: '#FFFFFF',
   },
   rightIconContainer: {
     flexDirection: 'row',

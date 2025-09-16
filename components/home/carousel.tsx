@@ -27,7 +27,7 @@ const AnimatedImage = Animated.createAnimatedComponent(Image);
 const { width: screenWidth } = Dimensions.get('window');
 const ITEM_WIDTH = screenWidth * 0.65;
 const ITEM_HEIGHT_ACTIVE = ITEM_WIDTH * 0.7;
-const ITEM_HEIGHT_INACTIVE = ITEM_WIDTH * 0.55;
+const ITEM_HEIGHT_INACTIVE = ITEM_WIDTH * 0.62; // Aumentado de 0.55 a 0.62
 const SPACING = (screenWidth - ITEM_WIDTH) / 2;
 
 // Infinite carousel constants
@@ -318,7 +318,7 @@ export const Carousel = ({ showDots = true, onBuyPress }: CarouselProps) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 20,
-    paddingBottom: 80,
+    paddingBottom: 22,
   },
   itemContainer: {
     width: ITEM_WIDTH,

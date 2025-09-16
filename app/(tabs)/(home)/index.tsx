@@ -1,4 +1,4 @@
-import { Carousel, SearchHeader } from '@/components/home';
+import { Carousel, FeatureCard, SearchHeader } from '@/components/home';
 import { ScrollView, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -18,13 +18,16 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <SearchHeader 
+        <SearchHeader
           onFilterPress={handleFilterPress}
           onScanPress={handleScanPress}
         />
-        <Carousel 
-          showDots={false} 
-          onBuyPress={handleBuyPress}
+        <Carousel showDots={false} onBuyPress={handleBuyPress} />
+        <FeatureCard
+          image={require('@/assets/home/skininsights.png')}
+          title='Skin Insights'
+          subtitle='Glow deeper skincare solutions.'
+          onPress={() => console.log('Feature card pressed')}
         />
       </ScrollView>
     </SafeAreaView>
