@@ -1,7 +1,7 @@
 import { collectionsData } from '@/data/collections-data';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { Image } from 'expo-image';
-import { useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import {
   ScrollView,
@@ -46,100 +46,109 @@ export default function ProductDetail() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={styles.imageContainer}>
-          <Image source={product.image} style={styles.productImage} />
-          <TouchableOpacity
-            style={styles.heartButton}
-            onPress={() => setIsLiked(!isLiked)}
-          >
-            {isLiked ? (
-              <AntDesign name='heart' size={24} color='#EF4444' />
-            ) : (
-              <Feather name='heart' size={24} color='#666' />
-            )}
-          </TouchableOpacity>
-        </View>
+    <>
+      <Stack.Screen options={{ headerShown: false }} />
+      <SafeAreaView style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={product.image}
+              style={styles.productImage}
+              contentFit='contain'
+            />
+            <TouchableOpacity
+              style={styles.heartButton}
+              onPress={() => setIsLiked(!isLiked)}
+            >
+              {isLiked ? (
+                <AntDesign name='heart' size={24} color='#EF4444' />
+              ) : (
+                <Feather name='heart' size={24} color='#666' />
+              )}
+            </TouchableOpacity>
+          </View>
 
-        <View style={styles.contentContainer}>
-          <Text style={styles.productName}>{product.name}</Text>
+          <View style={styles.contentContainer}>
+            <Text style={styles.productName}>{product.name}</Text>
 
-          <View style={styles.priceContainer}>
-            <Text style={styles.currentPrice}>${product.currentPrice}</Text>
-            <Text style={styles.originalPrice}>${product.originalPrice}</Text>
-            <View style={styles.discountBadge}>
-              <Text style={styles.discountText}>
-                {Math.round(
-                  ((product.originalPrice - product.currentPrice) /
-                    product.originalPrice) *
-                    100
-                )}
-                % OFF
+            <View style={styles.priceContainer}>
+              <Text style={styles.currentPrice}>${product.currentPrice}</Text>
+              <Text style={styles.originalPrice}>${product.originalPrice}</Text>
+              <View style={styles.discountBadge}>
+                <Text style={styles.discountText}>
+                  {Math.round(
+                    ((product.originalPrice - product.currentPrice) /
+                      product.originalPrice) *
+                      100
+                  )}
+                  % OFF
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.descriptionContainer}>
+              <Text style={styles.sectionTitle}>Descripción</Text>
+              <Text style={styles.description}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
               </Text>
             </View>
-          </View>
 
-          <View style={styles.descriptionContainer}>
-            <Text style={styles.sectionTitle}>Descripción</Text>
-            <Text style={styles.description}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </Text>
-          </View>
+            <View style={styles.quantityContainer}>
+              <Text style={styles.sectionTitle}>Cantidad</Text>
+              <View style={styles.quantitySelector}>
+                <TouchableOpacity
+                  style={styles.quantityButton}
+                  onPress={decrementQuantity}
+                >
+                  <AntDesign name='minus' size={20} color='#666' />
+                </TouchableOpacity>
+                <Text style={styles.quantityText}>{quantity}</Text>
+                <TouchableOpacity
+                  style={styles.quantityButton}
+                  onPress={incrementQuantity}
+                >
+                  <AntDesign name='plus' size={20} color='#666' />
+                </TouchableOpacity>
+              </View>
+            </View>
 
-          <View style={styles.quantityContainer}>
-            <Text style={styles.sectionTitle}>Cantidad</Text>
-            <View style={styles.quantitySelector}>
+            <View style={styles.actionButtons}>
               <TouchableOpacity
-                style={styles.quantityButton}
-                onPress={decrementQuantity}
+                style={styles.addToCartButton}
+                onPress={handleAddToCart}
               >
-                <AntDesign name='minus' size={20} color='#666' />
+                <Feather name='shopping-bag' size={20} color='#0FB758' />
+                <Text style={styles.addToCartText}>Agregar al Carrito</Text>
               </TouchableOpacity>
-              <Text style={styles.quantityText}>{quantity}</Text>
+
               <TouchableOpacity
-                style={styles.quantityButton}
-                onPress={incrementQuantity}
+                style={styles.buyNowButton}
+                onPress={handleBuyNow}
               >
-                <AntDesign name='plus' size={20} color='#666' />
+                <Text style={styles.buyNowText}>Comprar Ahora</Text>
               </TouchableOpacity>
             </View>
           </View>
-
-          <View style={styles.actionButtons}>
-            <TouchableOpacity
-              style={styles.addToCartButton}
-              onPress={handleAddToCart}
-            >
-              <Feather name='shopping-bag' size={20} color='#0FB758' />
-              <Text style={styles.addToCartText}>Agregar al Carrito</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.buyNowButton} onPress={handleBuyNow}>
-              <Text style={styles.buyNowText}>Comprar Ahora</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F4F4F7',
   },
   imageContainer: {
     position: 'relative',
     height: 400,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#F4F4F7',
   },
   productImage: {
     width: '100%',
     height: '100%',
-    contentFit: 'contain',
   },
   heartButton: {
     position: 'absolute',

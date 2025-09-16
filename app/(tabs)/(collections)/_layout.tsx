@@ -14,14 +14,6 @@ export default function CollectionsLayout() {
           headerShown: false,
         }}
       />
-      <Stack.Screen
-        name='[id]'
-        options={{
-          title: 'Detalle del Producto',
-          headerShown: true,
-          headerBackTitle: 'Atrás',
-        }}
-      />
     </Stack>
   );
 }

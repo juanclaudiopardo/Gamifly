@@ -30,7 +30,7 @@ export const ProductCard = ({
   };
 
   const handleProductPress = () => {
-    router.push(`/(tabs)/(collections)/${product.id}`);
+    router.push(`/product/${product.id}`);
   };
 
   return (
