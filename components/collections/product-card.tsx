@@ -1,6 +1,7 @@
 import { Product } from '@/data/collections-data';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -16,6 +17,7 @@ export const ProductCard = ({
   onAddToCart,
 }: ProductCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
+  const router = useRouter();
 
   const handleHeartPress = () => {
     const newLikedState = !isLiked;
@@ -27,8 +29,12 @@ export const ProductCard = ({
     onAddToCart?.(product.id);
   };
 
+  const handleProductPress = () => {
+    router.push(`/(tabs)/(collections)/${product.id}`);
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={handleProductPress}>
       <View style={styles.imageContainer}>
         <Image source={product.image} style={styles.image} />
         <TouchableOpacity style={styles.heartButton} onPress={handleHeartPress}>
@@ -52,7 +58,7 @@ export const ProductCard = ({
           <Feather name='shopping-bag' size={16} color='white' />
         </TouchableOpacity>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

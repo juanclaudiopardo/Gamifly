@@ -20,7 +20,7 @@ export default function TabsLayout() {
       }}
     >
       <Tabs.Screen
-        name='(home)'
+        name='index'
         options={{
           title: 'Inicio',
           headerShown: false,
@@ -45,7 +45,7 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name='collections'
+        name='(collections)'
         options={{
           title: 'Colección',
           headerShown: false,

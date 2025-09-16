@@ -7,7 +7,7 @@ import {
 import { SectionHeader } from '@/components/common';
 import { collectionsData } from '@/data/collections-data';
 import { popularData } from '@/data/popular-data';
-import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Collection() {
