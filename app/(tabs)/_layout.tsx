@@ -14,6 +14,7 @@ export default function TabsLayout() {
           marginBottom: 26,
           borderRadius: 35,
           paddingBottom: 0,
+          height: 70,
         },
 
         tabBarLabelPosition: 'beside-icon',

@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     textAlign: 'center',
     marginTop: 16,
-    marginBottom: 177,
+    marginBottom: 77,
   },
   formTitle: {
     fontSize: 28,
