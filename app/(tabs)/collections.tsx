@@ -1,15 +1,12 @@
 import {
   CategoryBanner,
+  CollectionSearchHeader,
   PopularCard,
   ProductCard,
 } from '@/components/collections';
 import { SectionHeader } from '@/components/common';
-import { SearchBar } from '@/components/ui/search-bar';
 import { collectionsData } from '@/data/collections-data';
 import { popularData } from '@/data/popular-data';
-import { Feather } from '@expo/vector-icons';
-import EvilIcons from '@expo/vector-icons/EvilIcons';
-import { router } from 'expo-router';
 import { FlatList, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -23,47 +20,11 @@ export default function Collection() {
   };
   return (
     <SafeAreaView style={{ paddingHorizontal: 20 }}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 12,
-          marginBottom: 20,
-        }}
-      >
-        <TouchableOpacity
-          onPress={() => router.back()}
-          style={{
-            backgroundColor: 'white',
-            width: 50,
-            height: 50,
-            borderRadius: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <EvilIcons name='chevron-left' size={40} color='black' />
-        </TouchableOpacity>
-        <SearchBar
-          onFilterPress={handleFilterPress}
-          containerStyle={{ flex: 1 }}
-          placeholder='Search here'
-        />
-
-        <TouchableOpacity
-          onPress={handleScanPress}
-          style={{
-            backgroundColor: 'white',
-            width: 50,
-            height: 50,
-            borderRadius: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Feather name='shopping-bag' size={24} color='black' />
-        </TouchableOpacity>
-      </View>
+      <CollectionSearchHeader
+        onFilterPress={handleFilterPress}
+        onScanPress={handleScanPress}
+        searchPlaceholder='Search here'
+      />
       <CategoryBanner
         image={require('@/assets/collections/allProducts.png')}
         title='All Products'

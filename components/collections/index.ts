@@ -1,3 +1,4 @@
 export { CategoryBanner } from './category-banner';
-export { ProductCard } from './product-card';
+export { CollectionSearchHeader } from './search-header';
 export { PopularCard } from './popular-card';
+export { ProductCard } from './product-card';

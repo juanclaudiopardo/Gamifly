@@ -1,4 +1,4 @@
-import { Link } from 'expo-router';
+import { Href, Link } from 'expo-router';
 import React from 'react';
 import {
   StyleSheet,
@@ -7,7 +7,6 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { Href } from 'expo-router';
 
 interface SectionHeaderProps {
   title: string;
