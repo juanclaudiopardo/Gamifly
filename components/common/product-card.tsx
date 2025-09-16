@@ -9,14 +9,18 @@ interface ProductCardProps {
   product: Product;
   onHeartPress?: (productId: string, isLiked: boolean) => void;
   onAddToCart?: (productId: string) => void;
+  isWishlist?: boolean;
+  addButtonColor?: string;
 }
 
 export const ProductCard = ({
   product,
   onHeartPress,
   onAddToCart,
+  isWishlist = false,
+  addButtonColor = '#0FB758',
 }: ProductCardProps) => {
-  const [isLiked, setIsLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(isWishlist);
   const router = useRouter();
 
   const handleHeartPress = () => {
@@ -54,8 +58,8 @@ export const ProductCard = ({
             <Text style={styles.originalPrice}> ${product.originalPrice}</Text>
           </Text>
         </View>
-        <TouchableOpacity style={styles.addButton} onPress={handleAddToCart}>
-          <Feather name='shopping-bag' size={16} color='white' />
+        <TouchableOpacity style={[styles.addButton, { backgroundColor: addButtonColor }, isWishlist && styles.wishlistButton]} onPress={handleAddToCart}>
+          <Feather name='shopping-bag' size={16} color={isWishlist ? 'black' : 'white'} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -123,9 +127,12 @@ const styles = StyleSheet.create({
     color: '#868D93',
   },
   addButton: {
-    backgroundColor: '#0FB758',
     padding: 10,
     borderRadius: 50,
     marginLeft: 12,
+  },
+  wishlistButton: {
+    borderWidth: 1,
+    borderColor: '#E5E7EB',
   },
 });

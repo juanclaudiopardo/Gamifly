@@ -1,5 +1,4 @@
-import { ProductCard } from '@/components/collections';
-import { SectionHeader } from '@/components/common';
+import { ProductCard, SectionHeader } from '@/components/common';
 import { wishlistData } from '@/data/wishlist-data';
 import { FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -23,6 +22,8 @@ export default function Whishlist() {
             product={item}
             onHeartPress={handleHeartPress}
             onAddToCart={handleAddToCart}
+            isWishlist={true}
+            addButtonColor="white"
           />
         )}
         keyExtractor={(item) => item.id}

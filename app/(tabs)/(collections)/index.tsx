@@ -2,9 +2,8 @@ import {
   CategoryBanner,
   CollectionSearchHeader,
   PopularCard,
-  ProductCard,
 } from '@/components/collections';
-import { SectionHeader } from '@/components/common';
+import { ProductCard, SectionHeader } from '@/components/common';
 import { collectionsData } from '@/data/collections-data';
 import { popularData } from '@/data/popular-data';
 import { FlatList, StyleSheet, View } from 'react-native';
