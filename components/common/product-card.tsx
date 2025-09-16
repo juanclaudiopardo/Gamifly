@@ -24,6 +24,7 @@ export const ProductCard = ({
   const router = useRouter();
 
   const handleHeartPress = () => {
+    if (isWishlist) return; // No permitir cambiar en wishlist
     const newLikedState = !isLiked;
     setIsLiked(newLikedState);
     onHeartPress?.(product.id, newLikedState);
