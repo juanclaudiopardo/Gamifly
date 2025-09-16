@@ -1,3 +1,4 @@
+import { SectionHeader } from '@/components/common';
 import { Image } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,7 +16,7 @@ export default function Collection() {
           <Text style={styles.overlayText}>All Products</Text>
         </View>
       </View>
-      <Text>Collection</Text>
+      <SectionHeader title='Best Sellers' actionHref='/' />
     </SafeAreaView>
   );
 }

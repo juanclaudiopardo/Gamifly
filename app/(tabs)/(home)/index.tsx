@@ -37,7 +37,11 @@ export default function Home() {
           onPress={() => console.log('Feature card pressed')}
         />
 
-        <SectionHeader title='New Launches' actionHref='/collections' />
+        <SectionHeader
+          title='New Launches'
+          actionHref='/collections'
+          containerStyle={{ marginHorizontal: 20 }}
+        />
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}

@@ -1,33 +1,36 @@
 import { Link } from 'expo-router';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
+import { Href } from 'expo-router';
 
 interface SectionHeaderProps {
   title: string;
   actionText?: string;
-  actionHref?: string;
-  onActionPress?: () => void;
+  actionHref?: Href;
+  containerStyle?: ViewStyle;
 }
 
 export const SectionHeader = ({
   title,
   actionText = 'See all',
   actionHref,
-  onActionPress,
+  containerStyle,
 }: SectionHeaderProps) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, containerStyle]}>
       <Text style={styles.title}>{title}</Text>
       {actionHref ? (
         <Link asChild href={actionHref}>
-          <TouchableOpacity onPress={onActionPress}>
+          <TouchableOpacity>
             <Text style={styles.actionText}>{actionText}</Text>
           </TouchableOpacity>
         </Link>
-      ) : onActionPress ? (
-        <TouchableOpacity onPress={onActionPress}>
-          <Text style={styles.actionText}>{actionText}</Text>
-        </TouchableOpacity>
       ) : null}
     </View>
   );
@@ -39,7 +42,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 24,
-    marginHorizontal: 20,
   },
   title: {
     fontSize: 22,
