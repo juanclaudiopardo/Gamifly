@@ -1,3 +1,4 @@
+import { ProductPrice } from '@/components/pruduct';
 import { collectionsData } from '@/data/collections-data';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { Image } from 'expo-image';
@@ -50,42 +51,12 @@ export default function ProductDetail() {
       <Stack.Screen options={{ headerShown: false }} />
       <SafeAreaView style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.imageContainer}>
-            <Image
-              source={product.image}
-              style={styles.productImage}
-              contentFit='contain'
-            />
-            <TouchableOpacity
-              style={styles.heartButton}
-              onPress={() => setIsLiked(!isLiked)}
-            >
-              {isLiked ? (
-                <AntDesign name='heart' size={24} color='#EF4444' />
-              ) : (
-                <Feather name='heart' size={24} color='#666' />
-              )}
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.contentContainer}>
-            <Text style={styles.productName}>{product.name}</Text>
-
-            <View style={styles.priceContainer}>
-              <Text style={styles.currentPrice}>${product.currentPrice}</Text>
-              <Text style={styles.originalPrice}>${product.originalPrice}</Text>
-              <View style={styles.discountBadge}>
-                <Text style={styles.discountText}>
-                  {Math.round(
-                    ((product.originalPrice - product.currentPrice) /
-                      product.originalPrice) *
-                      100
-                  )}
-                  % OFF
-                </Text>
-              </View>
-            </View>
-
+          <Image source={product.image} style={styles.productImage} />
+          <ProductPrice
+            name={product.name}
+            currentPrice={product.currentPrice}
+          />
+          <View>
             <View style={styles.descriptionContainer}>
               <Text style={styles.sectionTitle}>Descripción</Text>
               <Text style={styles.description}>
@@ -139,41 +110,22 @@ export default function ProductDetail() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F4F4F7',
+    paddingHorizontal: 20,
   },
-  imageContainer: {
-    position: 'relative',
-    height: 400,
-    backgroundColor: '#F4F4F7',
-  },
+
   productImage: {
     width: '100%',
-    height: '100%',
-  },
-  heartButton: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    backgroundColor: 'white',
+    height: 421,
     borderRadius: 20,
-    padding: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
-  contentContainer: {
-    padding: 20,
-  },
+
   productName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1f2937',
-    marginBottom: 10,
+    fontSize: 22,
+    fontWeight: '500',
+  },
+  productNameDescription: {
+    fontSize: 12,
+    color: '#656565',
   },
   priceContainer: {
     flexDirection: 'row',
@@ -181,10 +133,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   currentPrice: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#0FB758',
-    marginRight: 10,
+    fontSize: 24,
+    fontWeight: '500',
   },
   originalPrice: {
     fontSize: 20,
