@@ -1,15 +1,38 @@
 import type { HomeCardData } from '@/data/home-cards';
-import { Feather } from '@expo/vector-icons';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { AntDesign, Feather } from '@expo/vector-icons';
+import { useState } from 'react';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface HomeCardProps {
   card: HomeCardData;
 }
 
 export const HomeCard = ({ card }: HomeCardProps) => {
+  const [isLiked, setIsLiked] = useState(false);
+
   return (
     <View style={styles.container}>
-      <Image source={card.image} style={styles.image} />
+      <View style={styles.imageContainer}>
+        <Image source={card.image} style={styles.image} />
+        <Pressable
+          style={styles.heartButton}
+          onPress={() => setIsLiked(!isLiked)}
+        >
+          {isLiked ? (
+            <AntDesign
+              name="heart"
+              size={20}
+              color="#EF4444"
+            />
+          ) : (
+            <Feather
+              name="heart"
+              size={20}
+              color="#9CA3AF"
+            />
+          )}
+        </Pressable>
+      </View>
       <View style={styles.infoContainer}>
         <View style={styles.textContainer}>
           <Text style={styles.title}>{card.title}</Text>
@@ -34,13 +57,26 @@ export const HomeCard = ({ card }: HomeCardProps) => {
 const styles = StyleSheet.create({
   container: {
     width: 187,
-    // marginHorizontal: 8,
+  },
+  imageContainer: {
+    position: 'relative',
   },
   image: {
     width: '100%',
     height: 166,
     borderRadius: 20,
     marginBottom: 10,
+  },
+  heartButton: {
+    position: 'absolute',
+    top: 12,
+    right: 12,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   infoContainer: {
     flexDirection: 'row',
