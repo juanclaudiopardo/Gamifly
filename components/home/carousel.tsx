@@ -318,7 +318,6 @@ export const Carousel = ({ showDots = true, onBuyPress }: CarouselProps) => {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 20,
-    paddingBottom: 22,
   },
   itemContainer: {
     width: ITEM_WIDTH,
