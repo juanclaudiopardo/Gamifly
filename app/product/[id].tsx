@@ -5,6 +5,7 @@ import {
   ProductHeader,
 } from '@/components/pruduct';
 import { collectionsData } from '@/data/collections-data';
+import { wishlistData } from '@/data/wishlist-data';
 import { Image } from 'expo-image';
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
@@ -15,7 +16,7 @@ export default function ProductDetail() {
   const { id } = useLocalSearchParams();
   const [quantity, setQuantity] = useState(1);
 
-  const product = collectionsData.find((p) => p.id === id);
+  const product = collectionsData.find((p) => p.id === id) || wishlistData.find((p) => p.id === id);
 
   if (!product) {
     return null;

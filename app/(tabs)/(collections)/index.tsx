@@ -51,7 +51,7 @@ export default function Collection() {
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
       />
-      <SectionHeader title='Popular' actionHref='/popular' />
+      <SectionHeader title='Popular' actionHref='/' />
       <View style={{ gap: 16, marginTop: 16 }}>
         {popularData.map((item) => (
           <PopularCard
