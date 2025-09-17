@@ -59,8 +59,19 @@ export const ProductCard = ({
             <Text style={styles.originalPrice}> ${product.originalPrice}</Text>
           </Text>
         </View>
-        <TouchableOpacity style={[styles.addButton, { backgroundColor: addButtonColor }, isWishlist && styles.wishlistButton]} onPress={handleAddToCart}>
-          <Feather name='shopping-bag' size={16} color={isWishlist ? 'black' : 'white'} />
+        <TouchableOpacity
+          style={[
+            styles.addButton,
+            { backgroundColor: addButtonColor },
+            isWishlist && styles.wishlistButton,
+          ]}
+          onPress={handleAddToCart}
+        >
+          <Feather
+            name='shopping-bag'
+            size={16}
+            color={isWishlist ? 'black' : 'white'}
+          />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
@@ -70,14 +81,14 @@ export const ProductCard = ({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    maxWidth: 187,
     borderRadius: 20,
+    flex: 1,
   },
   imageContainer: {
     position: 'relative',
   },
   image: {
-    width: 187,
+    width: '100%',
     height: 166,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

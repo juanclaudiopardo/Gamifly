@@ -1,11 +1,14 @@
 import type { HomeCardData } from '@/data/home-cards';
 import { AntDesign, Feather } from '@expo/vector-icons';
 import { useState } from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface HomeCardProps {
   card: HomeCardData;
 }
+
+const { width: screenWidth } = Dimensions.get('window');
+const cardWidth = (screenWidth - 60) / 2; // 2 cards per row with padding
 
 export const HomeCard = ({ card }: HomeCardProps) => {
   const [isLiked, setIsLiked] = useState(false);
@@ -56,14 +59,14 @@ export const HomeCard = ({ card }: HomeCardProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 187,
+    width: cardWidth,
   },
   imageContainer: {
     position: 'relative',
   },
   image: {
     width: '100%',
-    height: 166,
+    height: cardWidth * 0.9,
     borderRadius: 20,
     marginBottom: 10,
   },

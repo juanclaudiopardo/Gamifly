@@ -6,7 +6,7 @@ import {
 import { ProductCard, SectionHeader } from '@/components/common';
 import { collectionsData } from '@/data/collections-data';
 import { popularData } from '@/data/popular-data';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Collection() {
@@ -29,10 +29,10 @@ export default function Collection() {
         title='All Products'
       />
       <SectionHeader title='Best Sellers' actionHref='/' />
-      <FlatList
-        data={collectionsData}
-        renderItem={({ item }) => (
+      <View style={styles.horizontalContainer}>
+        {collectionsData.slice(0, 2).map((item) => (
           <ProductCard
+            key={item.id}
             product={item}
             onHeartPress={(productId, isLiked) => {
               console.log(
@@ -43,13 +43,8 @@ export default function Collection() {
               console.log(`Product ${productId} added to cart`);
             }}
           />
-        )}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.listContainer}
-        showsVerticalScrollIndicator={false}
-      />
+        ))}
+      </View>
       <SectionHeader title='Popular' actionHref='/' />
       <View style={{ gap: 16, marginTop: 16 }}>
         {popularData.map((item) => (
@@ -68,11 +63,9 @@ export default function Collection() {
 }
 
 const styles = StyleSheet.create({
-  listContainer: {
+  horizontalContainer: {
+    flexDirection: 'row',
     paddingTop: 16,
-    gap: 16,
-  },
-  row: {
-    justifyContent: 'space-between',
+    gap: 12,
   },
 });

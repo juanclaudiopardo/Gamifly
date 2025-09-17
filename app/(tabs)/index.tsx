@@ -39,7 +39,7 @@ export default function Home() {
 
         <SectionHeader
           title='New Launches'
-          actionHref='/collections'
+          actionHref={'/(tabs)/(collections)'}
           containerStyle={{ marginHorizontal: 20 }}
         />
         <FlatList
@@ -65,5 +65,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     marginTop: 16,
+    marginHorizontal: 20,
   },
 });

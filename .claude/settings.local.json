@@ -27,9 +27,13 @@
       "Bash(cd:*)",
       "WebFetch(domain:docs.expo.dev)",
       "Bash(rm:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(npx expo:*)"
     ],
     "deny": [],
-    "ask": []
+    "ask": [],
+    "additionalDirectories": [
+      "/Users/juanpardo/Desktop"
+    ]
   }
 }
