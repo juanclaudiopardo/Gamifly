@@ -26,7 +26,7 @@ export const SearchHeader = ({
       />
 
       <TouchableOpacity onPress={onScanPress} style={styles.scanButton}>
-        <Feather name='shopping-bag' size={24} color='black' />
+        <Feather name='shopping-bag' size={24} color='#989898' />
       </TouchableOpacity>
     </View>
   );

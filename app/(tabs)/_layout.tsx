@@ -72,9 +72,9 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name='settings'
+        name='qr'
         options={{
-          title: 'Configuración',
+          title: 'Qr',
           headerShown: false,
           tabBarIcon: ({ size, focused }) => (
             <View
@@ -87,8 +87,8 @@ export default function TabsLayout() {
                 alignItems: 'center',
               }}
             >
-              <Ionicons
-                name='settings'
+              <AntDesign
+                name='qrcode'
                 size={size}
                 color={focused ? '#fff' : '#666'}
               />
