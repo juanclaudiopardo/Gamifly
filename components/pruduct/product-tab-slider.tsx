@@ -14,7 +14,24 @@ interface ProductTabSliderProps {
 
 export function ProductTabSlider({ product }: ProductTabSliderProps) {
   const [activeTab, setActiveTab] = useState<'details' | 'howToUse' | 'ingredients'>('details');
+  const [tabMeasures, setTabMeasures] = useState<{
+    details: { width: number; x: number };
+    howToUse: { width: number; x: number };
+    ingredients: { width: number; x: number };
+  }>({ 
+    details: { width: 48, x: 0 }, 
+    howToUse: { width: 75, x: 125 }, 
+    ingredients: { width: 77, x: 275 } 
+  });
   const linePosition = useRef(new Animated.Value(0)).current;
+
+  const handleTabLayout = (tab: 'details' | 'howToUse' | 'ingredients', event: any) => {
+    const { width, x } = event.nativeEvent.layout;
+    setTabMeasures(prev => ({
+      ...prev,
+      [tab]: { width, x }
+    }));
+  };
 
   const animateToTab = (tab: 'details' | 'howToUse' | 'ingredients') => {
     let toValue = 0;
@@ -46,7 +63,7 @@ export function ProductTabSlider({ product }: ProductTabSliderProps) {
           justifyContent: 'space-between',
         }}
       >
-        <TouchableOpacity onPress={() => animateToTab('details')}>
+        <TouchableOpacity onPress={() => animateToTab('details')} onLayout={(event) => handleTabLayout('details', event)}>
           <Text
             style={{
               color: activeTab === 'details' ? '#000' : '#989898',
@@ -57,7 +74,7 @@ export function ProductTabSlider({ product }: ProductTabSliderProps) {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => animateToTab('howToUse')}>
+        <TouchableOpacity onPress={() => animateToTab('howToUse')} onLayout={(event) => handleTabLayout('howToUse', event)}>
           <Text
             style={{
               color: activeTab === 'howToUse' ? '#000' : '#989898',
@@ -68,7 +85,7 @@ export function ProductTabSlider({ product }: ProductTabSliderProps) {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => animateToTab('ingredients')}>
+        <TouchableOpacity onPress={() => animateToTab('ingredients')} onLayout={(event) => handleTabLayout('ingredients', event)}>
           <Text
             style={{
               color: activeTab === 'ingredients' ? '#000' : '#989898',
@@ -92,11 +109,19 @@ export function ProductTabSlider({ product }: ProductTabSliderProps) {
             height: 2,
             width: linePosition.interpolate({
               inputRange: [0, 1, 2],
-              outputRange: [48, 75, 77],
+              outputRange: [
+                tabMeasures.details.width,
+                tabMeasures.howToUse.width,
+                tabMeasures.ingredients.width
+              ],
             }),
             left: linePosition.interpolate({
               inputRange: [0, 1, 2],
-              outputRange: [0, 125, 275],
+              outputRange: [
+                tabMeasures.details.x,
+                tabMeasures.howToUse.x,
+                tabMeasures.ingredients.x
+              ],
             }),
           }}
         />

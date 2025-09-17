@@ -9,7 +9,7 @@ import {
   Ionicons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Profile() {
@@ -150,13 +150,3 @@ export default function Profile() {
     </SafeAreaView>
   );
 }
-const styles = StyleSheet.create({
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
-    borderWidth: 1,
-    borderColor: '#E5E5E5',
-    marginRight: 4,
-  },
-});
