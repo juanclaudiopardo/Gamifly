@@ -14,6 +14,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -93,147 +94,158 @@ export default function Register() {
           style={styles.container}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-          <Text style={styles.formTitle}>Create an Account?</Text>
-          <View style={styles.inputContainer}>
-            <Controller
-              control={control}
-              name='fullName'
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  label='Full Name'
-                  value={value}
-                  onChangeText={onChange}
-                  autoCapitalize='words'
-                  autoCorrect={false}
-                  placeholder='Micheal Johnson'
-                  editable={!isSubmitting}
-                  error={errors.fullName?.message}
-                  leftIcon={<EvilIcons name='user' size={24} color='#808080' />}
-                />
+          <ScrollView
+            style={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+          >
+            <Text style={styles.formTitle}>Create an Account?</Text>
+            <View style={styles.inputContainer}>
+              <Controller
+                control={control}
+                name='fullName'
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    label='Full Name'
+                    value={value}
+                    onChangeText={onChange}
+                    autoCapitalize='words'
+                    autoCorrect={false}
+                    placeholder='Micheal Johnson'
+                    editable={!isSubmitting}
+                    error={errors.fullName?.message}
+                    leftIcon={
+                      <EvilIcons name='user' size={24} color='#808080' />
+                    }
+                  />
+                )}
+              />
+
+              <Controller
+                control={control}
+                name='email'
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    label='Email'
+                    value={value}
+                    onChangeText={onChange}
+                    keyboardType='email-address'
+                    autoCapitalize='none'
+                    autoCorrect={false}
+                    placeholder='micheal09@gmail.com'
+                    editable={!isSubmitting}
+                    error={errors.email?.message}
+                    leftIcon={
+                      <MaterialCommunityIcons
+                        name='email-outline'
+                        size={24}
+                        color='#808080'
+                      />
+                    }
+                  />
+                )}
+              />
+
+              <Controller
+                control={control}
+                name='password'
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    label='Password'
+                    value={value}
+                    onChangeText={onChange}
+                    secureTextEntry={!showPassword}
+                    placeholder='********'
+                    editable={!isSubmitting}
+                    error={errors.password?.message}
+                    leftIcon={
+                      <Ionicons
+                        name='lock-closed-outline'
+                        size={24}
+                        color='#808080'
+                      />
+                    }
+                    rightIcon={
+                      <Feather
+                        name={showPassword ? 'eye' : 'eye-off'}
+                        size={20}
+                        color='#808080'
+                      />
+                    }
+                    onRightIconPress={() => setShowPassword(!showPassword)}
+                  />
+                )}
+              />
+
+              <Controller
+                control={control}
+                name='confirmPassword'
+                render={({ field: { onChange, value } }) => (
+                  <Input
+                    label='Confirm Password'
+                    value={value}
+                    onChangeText={onChange}
+                    secureTextEntry={!showConfirmPassword}
+                    placeholder='********'
+                    editable={!isSubmitting}
+                    error={errors.confirmPassword?.message}
+                    leftIcon={
+                      <Ionicons
+                        name='lock-closed-outline'
+                        size={24}
+                        color='#808080'
+                      />
+                    }
+                    rightIcon={
+                      <Feather
+                        name={showConfirmPassword ? 'eye' : 'eye-off'}
+                        size={20}
+                        color='#808080'
+                      />
+                    }
+                    onRightIconPress={() =>
+                      setShowConfirmPassword(!showConfirmPassword)
+                    }
+                  />
+                )}
+              />
+            </View>
+            <View style={styles.termsContainer}>
+              <Controller
+                control={control}
+                name='acceptTerms'
+                render={({ field: { onChange, value } }) => (
+                  <Checkbox
+                    label='I accept the terms and conditions'
+                    checked={value}
+                    onValueChange={onChange}
+                  />
+                )}
+              />
+              {errors.acceptTerms && (
+                <Text style={styles.errorText}>
+                  {errors.acceptTerms.message}
+                </Text>
               )}
+            </View>
+            <Button
+              title='Sign Up'
+              onPress={handleSubmit(onSubmit as any)}
+              loading={isSubmitting}
             />
 
-            <Controller
-              control={control}
-              name='email'
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  label='Email'
-                  value={value}
-                  onChangeText={onChange}
-                  keyboardType='email-address'
-                  autoCapitalize='none'
-                  autoCorrect={false}
-                  placeholder='micheal09@gmail.com'
-                  editable={!isSubmitting}
-                  error={errors.email?.message}
-                  leftIcon={
-                    <MaterialCommunityIcons
-                      name='email-outline'
-                      size={24}
-                      color='#808080'
-                    />
-                  }
-                />
-              )}
-            />
+            <SocialLogin />
 
-            <Controller
-              control={control}
-              name='password'
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  label='Password'
-                  value={value}
-                  onChangeText={onChange}
-                  secureTextEntry={!showPassword}
-                  placeholder='********'
-                  editable={!isSubmitting}
-                  error={errors.password?.message}
-                  leftIcon={
-                    <Ionicons
-                      name='lock-closed-outline'
-                      size={24}
-                      color='#808080'
-                    />
-                  }
-                  rightIcon={
-                    <Feather
-                      name={showPassword ? 'eye' : 'eye-off'}
-                      size={20}
-                      color='#808080'
-                    />
-                  }
-                  onRightIconPress={() => setShowPassword(!showPassword)}
-                />
-              )}
-            />
+            <View style={styles.registerContainer}>
+              <Text style={styles.registerText}>Already have an account? </Text>
+              <TouchableOpacity onPress={() => router.back()}>
+                <Text style={styles.registerLink}>Login</Text>
+              </TouchableOpacity>
+            </View>
 
-            <Controller
-              control={control}
-              name='confirmPassword'
-              render={({ field: { onChange, value } }) => (
-                <Input
-                  label='Confirm Password'
-                  value={value}
-                  onChangeText={onChange}
-                  secureTextEntry={!showConfirmPassword}
-                  placeholder='********'
-                  editable={!isSubmitting}
-                  error={errors.confirmPassword?.message}
-                  leftIcon={
-                    <Ionicons
-                      name='lock-closed-outline'
-                      size={24}
-                      color='#808080'
-                    />
-                  }
-                  rightIcon={
-                    <Feather
-                      name={showConfirmPassword ? 'eye' : 'eye-off'}
-                      size={20}
-                      color='#808080'
-                    />
-                  }
-                  onRightIconPress={() =>
-                    setShowConfirmPassword(!showConfirmPassword)
-                  }
-                />
-              )}
-            />
-          </View>
-          <View style={styles.termsContainer}>
-            <Controller
-              control={control}
-              name='acceptTerms'
-              render={({ field: { onChange, value } }) => (
-                <Checkbox
-                  label='I accept the terms and conditions'
-                  checked={value}
-                  onValueChange={onChange}
-                />
-              )}
-            />
-            {errors.acceptTerms && (
-              <Text style={styles.errorText}>{errors.acceptTerms.message}</Text>
-            )}
-          </View>
-          <Button
-            title='Sign Up'
-            onPress={handleSubmit(onSubmit as any)}
-            loading={isSubmitting}
-          />
-
-          <SocialLogin />
-
-          <View style={styles.registerContainer}>
-            <Text style={styles.registerText}>Already have an account? </Text>
-            <TouchableOpacity onPress={() => router.back()}>
-              <Text style={styles.registerLink}>Login</Text>
-            </TouchableOpacity>
-          </View>
-
-          <Text style={styles.hint}>To test: test@example.com / password</Text>
+            <Text style={styles.hint}>
+              To test: test@example.com / password
+            </Text>
+          </ScrollView>
         </KeyboardAvoidingView>
       </View>
     </SafeAreaView>
