@@ -23,7 +23,7 @@ export default function Whishlist() {
             onHeartPress={handleHeartPress}
             onAddToCart={handleAddToCart}
             isWishlist={true}
-            addButtonColor="white"
+            addButtonColor='white'
           />
         )}
         keyExtractor={(item) => item.id}
@@ -43,9 +43,9 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     paddingTop: 16,
-    gap: 16,
   },
   row: {
     justifyContent: 'space-between',
+    gap: 16,
   },
 });

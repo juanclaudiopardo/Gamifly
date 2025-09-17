@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     flex: 1,
+    marginBottom: 8,
   },
   imageContainer: {
     position: 'relative',
